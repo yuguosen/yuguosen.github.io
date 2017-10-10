@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="1 前言由于之前的博客比较混乱，在简书和CSDN上都写过，体验感觉都不怎么好（尤其是CSDN现在强制要求绑定手机号），索性自己开始使用Hexo+GitHub构建自己的博客。以前的部分文章在后续看能不能有时间搬过来。 2 系列文章说明大数据现在已经成为互联网”三大俗”之一了，虽然感觉快要烂大街了，但是还是处在风口之上，很多IT狗（例如我）对其还是趋之若鹜。但说实在的大数据的门槛还是比Java的要高些">
+<meta name="description" content="前言 由于之前的博客比较混乱，在简书和CSDN上都写过，体验感觉都不怎么好（尤其是CSDN现在强制要求绑定手机号），索性自己开始使用Hexo+GitHub构建自己的博客。以前的部分文章在后续看能不能有时间搬过来。 系列文章说明大数据现在已经成为互联网”三大俗”之一了，虽然感觉快要烂大街了，但是还是处在风口之上，很多IT狗（例如我）对其还是趋之若鹜。但说实在的大数据的门槛还是比Java的要高些，别的">
 <meta name="keywords" content="大数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker搭建分布式大数据环境之准备工作">
 <meta property="og:url" content="http://yoursite.com/2017/10/09/docker搭建完全分布式大数据环境之准备工作/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="1 前言由于之前的博客比较混乱，在简书和CSDN上都写过，体验感觉都不怎么好（尤其是CSDN现在强制要求绑定手机号），索性自己开始使用Hexo+GitHub构建自己的博客。以前的部分文章在后续看能不能有时间搬过来。 2 系列文章说明大数据现在已经成为互联网”三大俗”之一了，虽然感觉快要烂大街了，但是还是处在风口之上，很多IT狗（例如我）对其还是趋之若鹜。但说实在的大数据的门槛还是比Java的要高些">
+<meta property="og:description" content="前言 由于之前的博客比较混乱，在简书和CSDN上都写过，体验感觉都不怎么好（尤其是CSDN现在强制要求绑定手机号），索性自己开始使用Hexo+GitHub构建自己的博客。以前的部分文章在后续看能不能有时间搬过来。 系列文章说明大数据现在已经成为互联网”三大俗”之一了，虽然感觉快要烂大街了，但是还是处在风口之上，很多IT狗（例如我）对其还是趋之若鹜。但说实在的大数据的门槛还是比Java的要高些，别的">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/10/09/images/centos_device.jpg">
-<meta property="og:updated_time" content="2017-10-10T08:13:12.041Z">
+<meta property="og:updated_time" content="2017-10-10T08:44:07.014Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker搭建分布式大数据环境之准备工作">
-<meta name="twitter:description" content="1 前言由于之前的博客比较混乱，在简书和CSDN上都写过，体验感觉都不怎么好（尤其是CSDN现在强制要求绑定手机号），索性自己开始使用Hexo+GitHub构建自己的博客。以前的部分文章在后续看能不能有时间搬过来。 2 系列文章说明大数据现在已经成为互联网”三大俗”之一了，虽然感觉快要烂大街了，但是还是处在风口之上，很多IT狗（例如我）对其还是趋之若鹜。但说实在的大数据的门槛还是比Java的要高些">
+<meta name="twitter:description" content="前言 由于之前的博客比较混乱，在简书和CSDN上都写过，体验感觉都不怎么好（尤其是CSDN现在强制要求绑定手机号），索性自己开始使用Hexo+GitHub构建自己的博客。以前的部分文章在后续看能不能有时间搬过来。 系列文章说明大数据现在已经成为互联网”三大俗”之一了，虽然感觉快要烂大街了，但是还是处在风口之上，很多IT狗（例如我）对其还是趋之若鹜。但说实在的大数据的门槛还是比Java的要高些，别的">
 <meta name="twitter:image" content="http://yoursite.com/2017/10/09/images/centos_device.jpg">
 
 
@@ -394,17 +394,19 @@
       
 
       
-        <h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1 前言"></a>1 前言</h1><p>由于之前的博客比较混乱，在简书和CSDN上都写过，体验感觉都不怎么好（尤其是CSDN现在强制要求绑定手机号），索性自己开始使用Hexo+GitHub构建自己的博客。以前的部分文章在后续看能不能有时间搬过来。</p>
-<h1 id="2-系列文章说明"><a href="#2-系列文章说明" class="headerlink" title="2 系列文章说明"></a>2 系列文章说明</h1><p>大数据现在已经成为互联网”三大俗”之一了，虽然感觉快要烂大街了，但是还是处在风口之上，很多IT狗（例如我）对其还是趋之若鹜。但说实在的大数据的门槛还是比Java的要高些，别的不说，首先一个完全分布式的大数据环境，就让不少人比较头疼。随便去某云上买个主机一年下来都要不少钱。而本系列文章的目的就是将我自身的解决方案分享出来，大家一起来愉快地搞学习。用到的主要Docker，这玩意儿从2013年蹦出来之后热度就一直蹭蹭的往上涨。但是关于Docker的详细信息以及高级技术，不在本系列讨论之类（其实是自己完全的小白，就知道怎么照葫芦画瓢，哈哈哈）。</p>
-<h1 id="3-正式开始"><a href="#3-正式开始" class="headerlink" title="3 正式开始"></a>3 正式开始</h1><h2 id="3-1-基础硬件环境准备"><a href="#3-1-基础硬件环境准备" class="headerlink" title="3.1 基础硬件环境准备"></a>3.1 基础硬件环境准备</h2><ul>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>由于之前的博客比较混乱，在简书和CSDN上都写过，体验感觉都不怎么好（尤其是CSDN现在强制要求绑定手机号），索性自己开始使用Hexo+GitHub构建自己的博客。以前的部分文章在后续看能不能有时间搬过来。</p>
+<h1 id="系列文章说明"><a href="#系列文章说明" class="headerlink" title="系列文章说明"></a>系列文章说明</h1><p>大数据现在已经成为互联网”三大俗”之一了，虽然感觉快要烂大街了，但是还是处在风口之上，很多IT狗（例如我）对其还是趋之若鹜。但说实在的大数据的门槛还是比Java的要高些，别的不说，首先一个完全分布式的大数据环境，就让不少人比较头疼。随便去某云上买个主机一年下来都要不少钱。而本系列文章的目的就是将我自身的解决方案分享出来，大家一起来愉快地搞学习。用到的主要Docker，这玩意儿从2013年蹦出来之后热度就一直蹭蹭的往上涨。但是关于Docker的详细信息以及高级技术，不在本系列讨论之类（其实是自己完全的小白，就知道怎么照葫芦画瓢，哈哈哈）。</p>
+<h1 id="正式开始"><a href="#正式开始" class="headerlink" title="正式开始"></a>正式开始</h1><h2 id="基础硬件环境准备"><a href="#基础硬件环境准备" class="headerlink" title="基础硬件环境准备"></a>基础硬件环境准备</h2><ul>
 <li>笔记本一个。内存8G，这个要求在现在来看已经是很低了吧。</li>
 <li>移动硬盘一个。我自己是在京东上买的1T的西部数据，300多一点，具体大小视情况而定</li>
 <li>Linux系统盘（U盘）一个。这玩意很简单，如果跟我一样上手的时候是个小白的话，我的建议是不要虚，撒开了搞，错了再格式化。而且手上有一两个系统盘，基本上是程序猿的标配了。</li>
 </ul>
 <hr>
 <p>有了这些东西以后，我规划的未来是这样的：首先将一个Linux系统写入到你的移动硬盘上，再在这个Linux系统上安装Docker引擎，然后通过Docker虚拟出你想要的集群。是不是很简单？是不是很美好？来吧，一起开始填坑。</p>
-<h2 id="3-2-制作Linux系统盘"><a href="#3-2-制作Linux系统盘" class="headerlink" title="3.2 制作Linux系统盘"></a>3.2 制作Linux系统盘</h2><p>这一步网上的教程多的是，工具也是五花八门，我用得是UltraISO，优点是比较干净。然后Linux镜像的话我用的事CentOS7系列，原因的话，因为公司的云服务器是阿里云，它用的是CentOS，So就这样了。这里还要说一点的是这个系统是你最底层的Linux系统，相当于地基，建议使用CentOS7，比较新而且稳定。建议新手下一个minimal版的可以顺便练一下Linux的一些基本操作，我使用的CentOS7地址：<a href="http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso" target="_blank" rel="external">http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso</a><br>下载之后就直接使用UltraISO即可。</p>
-<h2 id="3-3-将CentOS7系统安装到移动硬盘"><a href="#3-3-将CentOS7系统安装到移动硬盘" class="headerlink" title="3.3 将CentOS7系统安装到移动硬盘"></a>3.3 将CentOS7系统安装到移动硬盘</h2><p>将制作好的Linux系统盘（U盘）和移动硬盘（如果是新的需要格式化一下，文件格式好像没什么特殊的要求）插到电脑上，重启电脑，然后按F12即可进入启动项,选择你的U盘启动（如果是金士顿的话就是那个以KingSton开头的U盘）。进入之后就可以看到CentOS的安装引导界面，选择第一个Install CentOS。进入后首先是选择语言，英语即可，第二步的设置就比较多一些,主要就是选择磁盘，将我们的CentOS写入到我们的移动硬盘上,点击select device即可看到如下界面:<br><img src="../images/centos_device.jpg" style="width:100%;height:200px;"><br>选择自己的移动硬盘即可搞定。然后再是设置时区、root密码等基本设置。这些设置完成之后等待几分钟即可，会提示reboot。同样的，F12这次选择的是我们的移动硬盘启动，成功进入之后即表示整个CentOS系统已经装成功。<br>至此，我们已经有了一个初步的CentOS系统，这是我们往后工作的基础，当然啦我们选择的是最轻量级的系统，基本上是啥都没有。不过不用着急后面我们会慢慢一步步根据我们的具体需要装一些东西，逐步完善这个Linux系统。</p>
+<h2 id="制作Linux系统盘"><a href="#制作Linux系统盘" class="headerlink" title="制作Linux系统盘"></a>制作Linux系统盘</h2><p>这一步网上的教程多的是，工具也是五花八门，我用得是UltraISO，优点是比较干净。然后Linux镜像的话我用的事CentOS7系列，原因的话，因为公司的云服务器是阿里云，它用的是CentOS，So就这样了。这里还要说一点的是这个系统是你最底层的Linux系统，相当于地基，建议使用CentOS7，比较新而且稳定。建议新手下一个minimal版的可以顺便练一下Linux的一些基本操作，我使用的CentOS7地址：<a href="http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso" target="_blank" rel="external">http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso</a><br>下载之后就直接使用UltraISO即可。</p>
+<h2 id="将CentOS7系统安装到移动硬盘"><a href="#将CentOS7系统安装到移动硬盘" class="headerlink" title="将CentOS7系统安装到移动硬盘"></a>将CentOS7系统安装到移动硬盘</h2><p>将制作好的Linux系统盘（U盘）和移动硬盘（如果是新的需要格式化一下，文件格式好像没什么特殊的要求）插到电脑上，重启电脑，然后按F12即可进入启动项,选择你的U盘启动（如果是金士顿的话就是那个以KingSton开头的U盘）。进入之后就可以看到CentOS的安装引导界面，选择第一个Install CentOS。进入后首先是选择语言，英语即可，第二步的设置就比较多一些,主要就是选择磁盘，将我们的CentOS写入到我们的移动硬盘上,点击select device即可看到如下界面:<br><img src="../images/centos_device.jpg" style="width:100%;height:200px;"><br>选择自己的移动硬盘即可搞定。然后再是设置时区、root密码等基本设置。这些设置完成之后等待几分钟即可，会提示reboot。同样的，F12这次选择的是我们的移动硬盘启动，成功进入之后即表示整个CentOS系统已经装成功。<br>至此，我们已经有了一个初步的CentOS系统，这是我们往后工作的基础，当然啦我们选择的是最轻量级的系统，基本上是啥都没有。不过不用着急后面我们会慢慢一步步根据我们的具体需要装一些东西，逐步完善这个Linux系统。</p>
+</blockquote>
 
       
     </div>
@@ -578,7 +580,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-前言"><span class="nav-number">1.</span> <span class="nav-text">1 前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-系列文章说明"><span class="nav-number">2.</span> <span class="nav-text">2 系列文章说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-正式开始"><span class="nav-number">3.</span> <span class="nav-text">3 正式开始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-基础硬件环境准备"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 基础硬件环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-制作Linux系统盘"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 制作Linux系统盘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-将CentOS7系统安装到移动硬盘"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 将CentOS7系统安装到移动硬盘</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系列文章说明"><span class="nav-number">2.</span> <span class="nav-text">系列文章说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正式开始"><span class="nav-number">3.</span> <span class="nav-text">正式开始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础硬件环境准备"><span class="nav-number">3.1.</span> <span class="nav-text">基础硬件环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#制作Linux系统盘"><span class="nav-number">3.2.</span> <span class="nav-text">制作Linux系统盘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将CentOS7系统安装到移动硬盘"><span class="nav-number">3.3.</span> <span class="nav-text">将CentOS7系统安装到移动硬盘</span></a></li></ol></li></ol></div>
             
 
           </div>

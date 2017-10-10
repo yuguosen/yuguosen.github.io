@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="1 前言 在Docker搭建分布式大数据环境之准备工作中我们成功将CentOS系统写入到移动硬盘中。进入之后机会发现在这个最小系统里面真的是什么都没有，ifconfig这些基本的命令也没有，不知道自己的ip，也ping不通外网，很蛋疼啊。接下来我们就来进行一些操作让我们的CentOs系统真正的飞起来。 2 网络设置网络是必须的，一般的设置都是那种开机自动随机ip，这个病不符合我们的需求，因为后面的">
+<meta name="description" content="前言 在Docker搭建分布式大数据环境之准备工作中我们成功将CentOS系统写入到移动硬盘中。进入之后机会发现在这个最小系统里面真的是什么都没有，ifconfig这些基本的命令也没有，不知道自己的ip，也ping不通外网，很蛋疼啊。接下来我们就来进行一些操作让我们的CentOs系统真正的飞起来。 网络设置网络是必须的，一般的设置都是那种开机自动随机ip，这个病不符合我们的需求，因为后面的操作基本">
 <meta name="keywords" content="大数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker搭建分布式大数据环境之CentOS的一些初始化设置">
 <meta property="og:url" content="http://yoursite.com/2017/10/09/docker搭建完全分布式大数据环境之CentOS的一些初始化设置/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="1 前言 在Docker搭建分布式大数据环境之准备工作中我们成功将CentOS系统写入到移动硬盘中。进入之后机会发现在这个最小系统里面真的是什么都没有，ifconfig这些基本的命令也没有，不知道自己的ip，也ping不通外网，很蛋疼啊。接下来我们就来进行一些操作让我们的CentOs系统真正的飞起来。 2 网络设置网络是必须的，一般的设置都是那种开机自动随机ip，这个病不符合我们的需求，因为后面的">
+<meta property="og:description" content="前言 在Docker搭建分布式大数据环境之准备工作中我们成功将CentOS系统写入到移动硬盘中。进入之后机会发现在这个最小系统里面真的是什么都没有，ifconfig这些基本的命令也没有，不知道自己的ip，也ping不通外网，很蛋疼啊。接下来我们就来进行一些操作让我们的CentOs系统真正的飞起来。 网络设置网络是必须的，一般的设置都是那种开机自动随机ip，这个病不符合我们的需求，因为后面的操作基本">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-10T08:40:02.017Z">
+<meta property="og:updated_time" content="2017-10-10T08:45:17.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker搭建分布式大数据环境之CentOS的一些初始化设置">
-<meta name="twitter:description" content="1 前言 在Docker搭建分布式大数据环境之准备工作中我们成功将CentOS系统写入到移动硬盘中。进入之后机会发现在这个最小系统里面真的是什么都没有，ifconfig这些基本的命令也没有，不知道自己的ip，也ping不通外网，很蛋疼啊。接下来我们就来进行一些操作让我们的CentOs系统真正的飞起来。 2 网络设置网络是必须的，一般的设置都是那种开机自动随机ip，这个病不符合我们的需求，因为后面的">
+<meta name="twitter:description" content="前言 在Docker搭建分布式大数据环境之准备工作中我们成功将CentOS系统写入到移动硬盘中。进入之后机会发现在这个最小系统里面真的是什么都没有，ifconfig这些基本的命令也没有，不知道自己的ip，也ping不通外网，很蛋疼啊。接下来我们就来进行一些操作让我们的CentOs系统真正的飞起来。 网络设置网络是必须的，一般的设置都是那种开机自动随机ip，这个病不符合我们的需求，因为后面的操作基本">
 
 
 
@@ -392,10 +392,11 @@
       
 
       
-        <h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1 前言"></a>1 前言</h1><blockquote>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
 <p>在<a href="https://yuguosen.github.io/2017/10/09/docker%E6%90%AD%E5%BB%BA%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%8E%AF%E5%A2%83%E4%B9%8B%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/" target="_blank" rel="external">Docker搭建分布式大数据环境之准备工作</a>中我们成功将CentOS系统写入到移动硬盘中。进入之后机会发现在这个最小系统里面真的是什么都没有，ifconfig这些基本的命令也没有，不知道自己的ip，也ping不通外网，很蛋疼啊。接下来我们就来进行一些操作让我们的CentOs系统真正的飞起来。</p>
-<h1 id="2-网络设置"><a href="#2-网络设置" class="headerlink" title="2 网络设置"></a>2 网络设置</h1><p>网络是必须的，一般的设置都是那种开机自动随机ip，这个病不符合我们的需求，因为后面的操作基本上都是使用xshell远程操作（我是这样的，因为在黑漆漆的CentOS里面搞事情确实不爽，有时候需要查一些资料什么的就非常的蛋疼），因此需要的是固定ip。<br></p>
-<h3 id="1-编辑CentOS的网络配置文件"><a href="#1-编辑CentOS的网络配置文件" class="headerlink" title="1 编辑CentOS的网络配置文件"></a>1 编辑CentOS的网络配置文件</h3><p>   cd  /etc/sysconfig/network-scripts<br>进入到目录后会发现一个ifcfg-eth0文件  </p>
+<h1 id="网络设置"><a href="#网络设置" class="headerlink" title="网络设置"></a>网络设置</h1><p>网络是必须的，一般的设置都是那种开机自动随机ip，这个病不符合我们的需求，因为后面的操作基本上都是使用xshell远程操作（我是这样的，因为在黑漆漆的CentOS里面搞事情确实不爽，有时候需要查一些资料什么的就非常的蛋疼），因此需要的是固定ip。<br></p>
+<h2 id="编辑CentOS的网络配置文件"><a href="#编辑CentOS的网络配置文件" class="headerlink" title="编辑CentOS的网络配置文件"></a>编辑CentOS的网络配置文件</h2><pre><code>cd  /etc/sysconfig/network-scripts
+</code></pre><p>进入到目录后会发现一个ifcfg-eth0文件 </p>
 </blockquote>
 
       
@@ -570,7 +571,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-前言"><span class="nav-number">1.</span> <span class="nav-text">1 前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-网络设置"><span class="nav-number">2.</span> <span class="nav-text">2 网络设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-编辑CentOS的网络配置文件"><span class="nav-number">2.0.1.</span> <span class="nav-text">1 编辑CentOS的网络配置文件</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络设置"><span class="nav-number">2.</span> <span class="nav-text">网络设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑CentOS的网络配置文件"><span class="nav-number">2.1.</span> <span class="nav-text">编辑CentOS的网络配置文件</span></a></li></ol></li></ol></div>
             
 
           </div>
