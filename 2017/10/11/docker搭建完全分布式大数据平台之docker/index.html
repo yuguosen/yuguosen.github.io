@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="北冥有鱼">
 <meta property="og:description" content="在已经安装好的CentOS7系统上安装Docker并初始化一些容器">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-11T08:15:38.556Z">
+<meta property="og:updated_time" content="2017-11-14T12:25:29.895Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker搭建分布式大数据环境之docker">
 <meta name="twitter:description" content="在已经安装好的CentOS7系统上安装Docker并初始化一些容器">
@@ -447,10 +447,23 @@ ONBOOT=yes
 #GETWAY=192.168.1.1
 #DNS1=192.168.1.1
 #DNS2=8.8.8.8
-BRIDGE=&quot;br0&quot;
+BRIDGE=br0
 </code></pre><p>主要就是注释掉一开始我们给宿主机设固定IP是指定的一些与IP地址有关的信息</p>
 <p>设置物理网卡桥接到网桥</p>
-<p>重启网络服务：</p>
+<pre><code>vim ifcfg-br0
+TYPE=&quot;Bridge&quot;
+BOOTPROTO=static
+IPADDR=192.168.1.62
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.1
+PREFIX=24
+DNS1=8.8.8.8
+DNS2=192.168.252.3
+DNS3=192.168.1.1
+NAME=br0
+ONBOOT=yes
+DEVICE=br0
+</code></pre><p>重启网络服务：</p>
 <pre><code>systemctl restart network
 </code></pre><p>新建一个容器并使用pipework指定ip为192.168.1.71：</p>
 <pre><code>docker run -itd --net=none --name=&quot;test2&quot; -h=&quot;test2&quot;  centos:7 /bin/bash
@@ -459,7 +472,7 @@ pipework br0 test2 192.168.1.71/24@192.168.1.1
 <pre><code>yum install -y net-tools
 </code></pre><p>完成之后使用ifconfig命令即可查看test2容器的ip地址，但这里会有一个问题，就是每次重启容器的时候都需要使用pipework给容器重新分配ip，这里的解决思路就是将指定IP的操作放在开机启动，具体的操作后面会详细的说明。</p>
 <p>这一步完成之后后面的事就会简单很多，我今年在用这个搞毕设的时候，网桥这部分老是出现问题，最后用血泪总结了这么些内容。</p>
-<p>到这里Docker一些基本的东西都搞的差不多了，接下来就是正式搭建我们的大数据集群了。</p>
+<p>到这里Docker一些基本的东西都搞的差不多了，接下来就是正式搭建我们的大数据集群了。<br>yum install -y bridge-utils</p>
 
       
     </div>
@@ -499,6 +512,10 @@ pipework br0 test2 192.168.1.71/24@192.168.1.1
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/16/docker搭建完全分布式大数据环境之dockerfile/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -589,7 +606,7 @@ pipework br0 test2 192.168.1.71/24@192.168.1.1
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
