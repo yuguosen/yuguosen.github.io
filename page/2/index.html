@@ -481,12 +481,12 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-categories" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/16/docker搭建完全分布式大数据环境之dockerfile/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/11/docker搭建完全分布式大数据平台之docker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大鱼">
@@ -505,7 +505,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/16/docker搭建完全分布式大数据环境之dockerfile/" itemprop="url">未命名</a></h1>
+                <a class="post-title-link" href="/2017/10/11/docker搭建完全分布式大数据平台之docker/" itemprop="url">Docker搭建分布式大数据环境之docker</a></h1>
         
 
         <div class="post-meta">
@@ -517,8 +517,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T19:40:49+08:00">
-                2017-10-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-11T15:50:28+08:00">
+                2017-10-11
               </time>
             
 
@@ -536,9 +536,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/10/16/docker搭建完全分布式大数据环境之dockerfile/#comments" itemprop="discussionUrl">
+                <a href="/2017/10/11/docker搭建完全分布式大数据平台之docker/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/10/16/docker搭建完全分布式大数据环境之dockerfile/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/10/11/docker搭建完全分布式大数据平台之docker/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -546,7 +546,7 @@
 
           
           
-             <span id="/2017/10/16/docker搭建完全分布式大数据环境之dockerfile/" class="leancloud_visitors" data-flag-title="">
+             <span id="/2017/10/11/docker搭建完全分布式大数据平台之docker/" class="leancloud_visitors" data-flag-title="Docker搭建分布式大数据环境之docker">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -578,35 +578,14 @@
 
       
         
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<a href="https://yuguosen.github.io/2017/10/11/docker%E6%90%AD%E5%BB%BA%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0%E4%B9%8Bdocker/" target="_blank" rel="external">docker搭建完全分布式大数据平台之docker</a>中我们已经完成了使用docker创建容器并且固定ip，打通网络的工作。在实际的开发过程中，我们往往需要构建多个容器，而且在一个团队里面构建docker容器的任何的命令或者语句高度可复用才是搞笑的方式，因此在本章中我们将使用dockerfile的方式，将创建docker容器的命令以文件的方式存储下来，实现其高度复用。</p>
-<h1 id="DockerFile基本命令"><a href="#DockerFile基本命令" class="headerlink" title="DockerFile基本命令"></a>DockerFile基本命令</h1><p>Dockerfile的指令是忽略大小写的，建议使用大写，使用 # 作为注释，每一行只支持一条指令，每条指令可以携带多个参数。</p>
-<p>Dockerfile的指令根据作用可以分为两种，构建指令和设置指令。构建指令用于构建image，其指定的操作不会在运行image的容器上执行；设置指令用于设置image的属性，其指定的操作将在运行image的容器中执行。这里我们只涉及一些基本常用的命令就可。</p>
-<h2 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h2><p>构建指令，是整个DockerFIle最基本的指令，必须有而且必须在整个DockerFile的最前面，后面跟的可以使本地的镜像也可以是远程仓库的镜像。</p>
-<pre><code>FROM &lt;IMAGE&gt;
-</code></pre><p>或者跟一个具体的版本号：</p>
-<pre><code>FORM &lt;IMAGE&gt;:&lt;tag&gt;
-</code></pre><h2 id="MAINTAINER"><a href="#MAINTAINER" class="headerlink" title="MAINTAINER"></a>MAINTAINER</h2><p>构建指令，指明image作者的信息</p>
-<h2 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h2><p>构建指令，RUN可以运行任何被基础image支持的命令。如基础image选择了ubuntu，那么软件管理部分只能使用ubuntu的命令。<br>指令的命令格式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RUN &lt;command&gt; (the command is run in a shell - `/bin/sh -c`)  </div><div class="line">RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot; ... ]  (exec form)</div></pre></td></tr></table></figure>
-<h2 id="CMD（设置container启动时执行的操作）"><a href="#CMD（设置container启动时执行的操作）" class="headerlink" title="CMD（设置container启动时执行的操作）"></a>CMD（设置container启动时执行的操作）</h2><p>设置指令，用于container启动时指定的操作。该操作可以是执行自定义脚本，也可以是执行系统命令。该指令只能在文件中存在一次，如果有多个，则只执行最后一条。<br>该指令有三种格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;] (like an exec, this is the preferred form)  </div><div class="line">CMD command param1 param2 (as a shell)</div></pre></td></tr></table></figure></p>
-<p>当Dockerfile指定了ENTRYPOINT，那么使用下面的格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CMD [&quot;param1&quot;,&quot;param2&quot;] (as default parameters to ENTRYPOINT)</div></pre></td></tr></table></figure></p>
-<p>ENTRYPOINT指定的是一个可执行的脚本或者程序的路径，该指定的脚本或者程序将会以param1和param2作为参数执行。所以如果CMD指令使用上面的形式，那么Dockerfile中必须要有配套的ENTRYPOINT。</p>
-<h2 id="ENTRYPOINT（设置container启动时执行的操作）"><a href="#ENTRYPOINT（设置container启动时执行的操作）" class="headerlink" title="ENTRYPOINT（设置container启动时执行的操作）"></a>ENTRYPOINT（设置container启动时执行的操作）</h2><p>设置指令，指定容器启动时执行的命令，可以多次设置，但是只有最后一个有效。<br>两种格式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;] (like an exec, the preferred form)  </div><div class="line">ENTRYPOINT command param1 param2 (as a shell)</div></pre></td></tr></table></figure></p>
-<p>该指令的使用分为两种情况，一种是独自使用，另一种和CMD指令配合使用。<br>当独自使用时，如果你还使用了CMD命令且CMD是一个完整的可执行的命令，那么CMD指令和ENTRYPOINT会互相覆盖只有最后一个CMD或者ENTRYPOINT有效。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># CMD指令将不会被执行，只有ENTRYPOINT指令被执行  </div><div class="line">CMD echo “Hello, World!”  </div><div class="line">ENTRYPOINT ls -l</div></pre></td></tr></table></figure></p>
-<p>另一种用法和CMD指令配合使用来指定ENTRYPOINT的默认参数，这时CMD指令不是一个完整的可执行命令，仅仅是参数部分；ENTRYPOINT指令只能使用JSON方式指定执行命令，而不能指定参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">FROM ubuntu  </div><div class="line">CMD [&quot;-l&quot;]  </div><div class="line">ENTRYPOINT [&quot;/usr/bin/ls&quot;]</div></pre></td></tr></table></figure></p>
-<h2 id="USER（设置container容器的用户）"><a href="#USER（设置container容器的用户）" class="headerlink" title="USER（设置container容器的用户）"></a>USER（设置container容器的用户）</h2><p>设置指令，设置启动容器的用户，默认是root用户。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 指定memcached的运行用户  </div><div class="line">ENTRYPOINT [&quot;memcached&quot;]  </div><div class="line">USER daemon  </div><div class="line">或  </div><div class="line">ENTRYPOINT [&quot;memcached&quot;, &quot;-u&quot;, &quot;daemon&quot;]</div></pre></td></tr></table></figure></p>
-<h2 id="EXPOSE（指定容器需要映射到宿主机器的端口）"><a href="#EXPOSE（指定容器需要映射到宿主机器的端口）" class="headerlink" title="EXPOSE（指定容器需要映射到宿主机器的端口）"></a>EXPOSE（指定容器需要映射到宿主机器的端口）</h2><p>设置指令，该指令会将容器中的端口映射成宿主机器中的某个端口。当你需要访问容器的时候，可以不是用容器的IP地址而是使用宿主机器的IP地址和映射后的端口。要完成整个操作需要两个步骤，首先在Dockerfile使用EXPOSE设置需要映射的容器端口，然后在运行容器的时候指定-p选项加上EXPOSE设置的端口，这样EXPOSE设置的端口号会被随机映射成宿主机器中的一个端口号。也可以指定需要映射到宿主机器的那个端口，这时要确保宿主机器上的端口号没有被使用。EXPOSE指令可以一次设置多个端口号，相应的运行容器的时候，可以配套的多次使用-p选项。<br>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">EXPOSE &lt;port&gt; [&lt;port&gt;...]</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 映射一个端口  </div><div class="line">EXPOSE port1  </div><div class="line"># 相应的运行容器使用的命令  </div><div class="line">docker run -p port1 image  </div><div class="line">  </div><div class="line"># 映射多个端口  </div><div class="line">EXPOSE port1 port2 port3  </div><div class="line"># 相应的运行容器使用的命令  </div><div class="line">docker run -p port1 -p port2 -p port3 image  </div><div class="line"># 还可以指定需要映射到宿主机器上的某个端口号  </div><div class="line">docker run -p host_port1:port1 -p host_port2:port2 -p host_port3:port3 image</div></pre></td></tr></table></figure>
-<h2 id="ENV（用于设置环境变量）"><a href="#ENV（用于设置环境变量）" class="headerlink" title="ENV（用于设置环境变量）"></a>ENV（用于设置环境变量）</h2><p>构建指令，在image中设置一个环境变量。<br>格式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ENV &lt;key&gt; &lt;value&gt;</div></pre></td></tr></table></figure></p>
-<h2 id="ADD（从src复制文件到container的dest路径）"><a href="#ADD（从src复制文件到container的dest路径）" class="headerlink" title="ADD（从src复制文件到container的dest路径）"></a>ADD（从src复制文件到container的dest路径）</h2><p>构建指令，所有拷贝到container中的文件和文件夹权限为0755，uid和gid为0；如果是一个目录，那么会将该目录下的所有文件添加到container中，不包括目录；如果文件是可识别的压缩格式，则docker会帮忙解压缩（注意压缩格式）；如果<src>是文件且<dest>中不使用斜杠结束，则会将<dest>视为文件，<src>的内容会写入<dest>；如果<src>是文件且<dest>中使用斜杠结束，则会<src>文件拷贝到<dest>目录下。<br>格式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ADD &lt;src&gt; &lt;dest&gt;</div></pre></td></tr></table></figure></dest></src></dest></src></dest></src></dest></dest></src></p>
-<h1 id="构建jdk8-vim基础镜像"><a href="#构建jdk8-vim基础镜像" class="headerlink" title="构建jdk8+vim基础镜像"></a>构建jdk8+vim基础镜像</h1><p>编辑dockerfile文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim df_jdk8</div></pre></td></tr></table></figure></p>
-<p>dockerfile内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">#构建一个jdk8+vim的最基本的docker镜像</div><div class="line"></div><div class="line">#centos版本</div><div class="line">FROM centos:7</div><div class="line"></div><div class="line">#创建app用户</div><div class="line">RUN useradd --create-home --no-log-init --shell /bin/bash app</div><div class="line">RUN echo &apos;app:123&apos; | chpasswd</div><div class="line">#USER app</div><div class="line">WORKDIR /home/app/</div><div class="line"></div><div class="line">RUN mkdir java</div><div class="line">WORKDIR /home/app/java</div><div class="line">COPY  ./jdk-8u92-linux-x64.tar.gz  /home/app/java/</div><div class="line">RUN cd /home/app/java/</div><div class="line">RUN tar -xvf jdk-8u92-linux-x64.tar.gz</div><div class="line"></div><div class="line"># 配置环境变量</div><div class="line">ENV JAVA_HOME /home/app/java/jdk1.8.0_92/</div><div class="line">ENV JRE_HOME $JAVA_HOME/jre</div><div class="line">ENV CLASSPATH .:$JAVA_HOME/lib:$JRE_HOME/lib</div><div class="line">ENV PATH $PATH:$JAVA_HOME/bin</div><div class="line"></div><div class="line">#配置yum源为阿里云源</div><div class="line">RUN yum install -y wget</div><div class="line">RUN wget http://mirrors.aliyun.com/repo/Centos-7.repo</div><div class="line">RUN cp Centos-7.repo /etc/yum.repos.d/</div><div class="line">RUN mv /etc/yum.repos.d/CentOS-Base.repo   /etc/yum.repos.d/CentOS-Base.repo.bak</div><div class="line">RUN mv Centos-7.repo /etc/yum.repos.d/CentOS-Base.repo</div><div class="line"></div><div class="line">RUN yum clean all</div><div class="line">RUN yum makecache</div><div class="line">RUN yum update  -y</div><div class="line">RUN yum install -y net-tools</div><div class="line">RUN yum install -y vim</div></pre></td></tr></table></figure></p>
-<p>dockerfile文件中#均表示注释，文件中还创建一个用户app以及设置初始密码123，由于后面还用到yum，需要root用户，故没有切换用户。这里需要特别注意的是，无论是ADD还是COPY命令其源路径都是相当于dockerfile的路径存在的，就是-f参数指定的路径，所以copy的文件必须是在dockerfile的路径中，一开始我就是将，jdk文件放在跟dockerfile父目录一个级别的目录中发现老是找不到路劲的错误。<br>接着build dockerfile文件构建镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t jdk8_base:1.0 -f ./df_jdk8 .</div></pre></td></tr></table></figure></p>
-<p>命令中，-t是镜像的名字以及对应的版本号，如果不写则默认是latest，-f则是dockerfile的路径，记住后面的点不可少。<br>使用docker run命令构建一个基于jdk8_base:1.0镜像的容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -i -t --name=&quot;test&quot; -h=&quot;test&quot; jdk8_base:1.0  /bin/bash</div></pre></td></tr></table></figure></p>
-<p>然后进入容器即可通过<code>java -version</code>查看java版本信息，同事也可以切换用户app</p>
-
-          
+          在已经安装好的CentOS7系统上安装Docker并初始化一些容器
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/10/11/docker搭建完全分布式大数据平台之docker/">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
