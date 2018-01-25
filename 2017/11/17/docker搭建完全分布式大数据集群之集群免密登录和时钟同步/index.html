@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="大数据," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="集群免密登录和时钟同步">
+<meta name="keywords" content="大数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker搭建完全分布式大数据集群之集群免密登录和时钟同步">
+<meta property="og:url" content="http://yoursite.com/2017/11/17/docker搭建完全分布式大数据集群之集群免密登录和时钟同步/index.html">
+<meta property="og:site_name" content="北冥有鱼">
+<meta property="og:description" content="集群免密登录和时钟同步">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-24T01:13:06.938Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker搭建完全分布式大数据集群之集群免密登录和时钟同步">
+<meta name="twitter:description" content="集群免密登录和时钟同步">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/17/docker搭建完全分布式大数据集群之集群免密登录和时钟同步/"/>
+
+
+
+
+
+  <title>docker搭建完全分布式大数据集群之集群免密登录和时钟同步 | 北冥有鱼</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?968cfc32895dcdfd0ad56df80f1689df";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">北冥有鱼</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/17/docker搭建完全分布式大数据集群之集群免密登录和时钟同步/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大鱼">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北冥有鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">docker搭建完全分布式大数据集群之集群免密登录和时钟同步</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-17T17:50:28+08:00">
+                2017-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/17/docker搭建完全分布式大数据集群之集群免密登录和时钟同步/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/11/17/docker搭建完全分布式大数据集群之集群免密登录和时钟同步/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/11/17/docker搭建完全分布式大数据集群之集群免密登录和时钟同步/" class="leancloud_visitors" data-flag-title="docker搭建完全分布式大数据集群之集群免密登录和时钟同步">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  集群免密登录和时钟同步
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<a href="https://yuguosen.github.io/2017/11/17/docker%E6%90%AD%E5%BB%BA%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%9B%86%E7%BE%A4%E4%B9%8B%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%9B%86%E7%BE%A4/" target="_blank" rel="external">docker搭建完全分布式大数据集群之开始构建大数据集群</a>中我们已经通过dockerfile构建好了自己的大数据集群，而且基本的环境变量设置已经完毕，下面要开始真正的大数据集群的配置。</p>
+<h1 id="集群通信的一些准备工作"><a href="#集群通信的一些准备工作" class="headerlink" title="集群通信的一些准备工作"></a>集群通信的一些准备工作</h1><h2 id="集群免密登录"><a href="#集群免密登录" class="headerlink" title="集群免密登录"></a>集群免密登录</h2><p>集群免密登录是大数据集群工作的基础，其原理不是很复杂，简单来说就是私钥保留公钥分发用于登录验证，每台机都会存有自己的私钥以及整个集群所有机器的公钥。比较笨的方法是挨个机器的生成公钥和私钥，然后挨个的拷贝，这样能达到效果，但是太浪费时间而且没啥意思，我的做法是用shell一次性搞定。</p>
+<p>由于一开始必然要涉及到跨集群登录，甚至是操作，因此还是需要引入一些辅助工具类，这里主要用的是expect，安装shell:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install -y expect</div></pre></td></tr></table></figure></p>
+<p>安装完成时候在~目录下创建文件夹shells，我的目录结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[hadoop@hadoop1 ~]$ ls</div><div class="line">create_rsa.sh  hadoop  idkeys  java  scala  shells</div></pre></td></tr></table></figure></p>
+<p>shells目录下主要文件有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[hadoop@hadoop1 shells]$ ls</div><div class="line">chmod600.exp  create_rsa.sh  create_ssh.sh  hosts  myexpect.sh  remote_create_ssh.exp  scpnopas.exp</div></pre></td></tr></table></figure></p>
+<p>下面逐渐说明每个文件的内容。</p>
+<h3 id="hosts："><a href="#hosts：" class="headerlink" title="hosts："></a>hosts：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">hadoop1:192.168.1.71</div><div class="line">hadoop2:192.168.1.72</div><div class="line">hadoop3:192.168.1.73</div><div class="line">hadoop4:192.168.1.74</div><div class="line">hadoop5:192.168.1.75</div></pre></td></tr></table></figure>
+<p>内容很简单，就是主机名加上对应的ip地址。</p>
+<h3 id="create-rsa-sh"><a href="#create-rsa-sh" class="headerlink" title="create_rsa.sh"></a>create_rsa.sh</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -P &apos;&apos; -f ~/.ssh/id_rsa</div></pre></td></tr></table></figure>
+<p>作用是创建本机的秘钥文件，密码是空，不需要手动输入任何东西。</p>
+<h3 id="scpnopas-exp"><a href="#scpnopas-exp" class="headerlink" title="scpnopas.exp"></a>scpnopas.exp</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/expect  </div><div class="line">set timeout 200</div><div class="line"></div><div class="line"></div><div class="line">set local_file [lindex $argv 0]</div><div class="line">set user [lindex $argv 1]</div><div class="line">set ip [lindex $argv 2]</div><div class="line">set remote_path [lindex $argv 3]</div><div class="line">set passwd Hadoop123</div><div class="line"></div><div class="line">set passwderror 0</div><div class="line"></div><div class="line">#使用StrictHostKeyChecking=no的选项使scp加入know_hosts的提示不再出现</div><div class="line">spawn scp -oStrictHostKeyChecking=no $local_file $user@$ip:$remote_path</div><div class="line">expect &quot;*assword:&quot; &#123;send &quot;$&#123;passwd&#125;\r&quot;&#125;</div><div class="line"></div><div class="line">expect eof</div></pre></td></tr></table></figure>
+<p>主要的作用是使用expect，将hadoop1的一些后续工作需要的文件拷贝到指定机器的指定目录下。</p>
+<h3 id="remote-create-ssh-exp"><a href="#remote-create-ssh-exp" class="headerlink" title="remote_create_ssh.exp"></a>remote_create_ssh.exp</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/expect  </div><div class="line">set timeout 200</div><div class="line">set ip [lindex $argv 0]</div><div class="line">set passwd Hadoop123</div><div class="line"></div><div class="line">#使用StrictHostKeyChecking=no的选项使加入know_hosts的提示不再出现</div><div class="line">spawn ssh -oStrictHostKeyChecking=no $ip</div><div class="line">#spawn scp $local_file $user@$ip:$remote_path </div><div class="line">expect &quot;*assword:&quot; &#123;send &quot;$&#123;passwd&#125;\r&quot;&#125;</div><div class="line">expect &quot;Last login:&quot;</div><div class="line"></div><div class="line">#切换到root用户安装expect</div><div class="line">send &quot;su root\r&quot;</div><div class="line">expect &quot;*assword:&quot; &#123;send &quot;aaaa\r&quot;&#125;</div><div class="line">send &quot;yum install -y expect\r&quot;</div><div class="line"></div><div class="line">#切换到hadoop用户</div><div class="line">send &quot;su hadoop\r&quot;</div><div class="line">send &quot;/home/hadoop/create_rsa.sh\r&quot;</div><div class="line"></div><div class="line">#这个是如果先前生成过秘钥提示覆盖，第一次的话不能要，目前没有找到像scp那样直接不出现提示</div><div class="line">expect &quot;*(y/n)?&quot; &#123;send &quot;y\r&quot;&#125;</div><div class="line">#执行scp命令将远程的秘钥拷贝到hadoop1的指定问价夹内</div><div class="line">send &quot;/home/hadoop/scpnopas.exp ~/.ssh/id_rsa.pub hadoop hadoop1 /home/hadoop/idkeys/$ip//id_rsa.pub\r&quot;</div><div class="line">send &quot;\r\r&quot;</div><div class="line">send &quot;exit\r&quot;</div><div class="line">send &quot;\r\r&quot;</div><div class="line">send &quot;exit\r\r&quot;</div><div class="line">send &quot;exit\r&quot;</div><div class="line">expect eof</div></pre></td></tr></table></figure>
+<p>脚本有两个作用，一是登录到目标机器，切换到root用户安装expect；二是执行先前拷过去的创建秘钥的脚本，创建本机的私钥和公钥。具体的一些操作在shell中均作了详细的说明。</p>
+<h3 id="chmod600-exp"><a href="#chmod600-exp" class="headerlink" title="chmod600.exp"></a>chmod600.exp</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">set timeout 200</div><div class="line">set ip [lindex $argv 0]</div><div class="line">set passwd Hadoop123</div><div class="line"></div><div class="line">set passwderror 0</div><div class="line"></div><div class="line">#使用StrictHostKeyChecking=no的选项使scp加入know_hosts的提示不再出现</div><div class="line">spawn ssh -oStrictHostKeyChecking=no $ip</div><div class="line">expect &quot;*assword:&quot; &#123;send &quot;$&#123;passwd&#125;\r&quot;&#125;</div><div class="line">expect &quot;Last login:&quot;</div><div class="line">send &quot;chmod 600 /home/hadoop/.ssh/authorized_keys\r&quot;</div><div class="line">send &quot;exit\r\r&quot;</div><div class="line">expect eof</div></pre></td></tr></table></figure>
+<p>将目标机器上认证文件赋予600的权限，这也是实现ssh免密登录的重要步骤。</p>
+<h3 id="create-ssh-sh"><a href="#create-ssh-sh" class="headerlink" title="create_ssh.sh"></a>create_ssh.sh</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line">./create_rsa.sh</div><div class="line">while read line</div><div class="line">do</div><div class="line">        OLD_IFS=&quot;$IFS&quot;</div><div class="line">        IFS=&quot;:&quot;</div><div class="line">        array=($line)</div><div class="line">        IFS=&quot;$OLD_IFS&quot;</div><div class="line">        ip=$&#123;array[1]&#125;</div><div class="line">        hostname=$&#123;array[0]&#125;</div><div class="line">        local_host=&quot;`hostname --fqdn`&quot;</div><div class="line">        if [ &quot;$hostname&quot; != &quot;$local_host&quot; ];then</div><div class="line">                #将后续工作需要的文件传到所有的机器上</div><div class="line">                ./scpnopas.exp ./create_rsa.sh hadoop $ip  ~/</div><div class="line">                ./scpnopas.exp ./scpnopas.exp  hadoop $ip ~/</div><div class="line"></div><div class="line">                #到远程机器上去创建ssh秘钥，并且将公钥全部copy到本机上</div><div class="line">                ./remote_create_ssh.exp $hostname</div><div class="line">        fi</div><div class="line">done &lt; ./hosts</div><div class="line"></div><div class="line">#将本机的公钥追加到认证文件中去</div><div class="line">rm -rf  ~/.ssh/authorized_keys</div><div class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</div><div class="line">         </div><div class="line">#将其他机器的公钥追加到认证文件中去</div><div class="line">while read line</div><div class="line">do           </div><div class="line">        OLD_IFS=&quot;$IFS&quot;</div><div class="line">        IFS=&quot;:&quot;</div><div class="line">        array=($line)</div><div class="line">        IFS=&quot;$OLD_IFS&quot;</div><div class="line">        ip=$&#123;array[1]&#125;</div><div class="line">        hostname=$&#123;array[0]&#125; </div><div class="line">        local_host=&quot;`hostname --fqdn`&quot;</div><div class="line">        if [ &quot;$hostname&quot; != &quot;$local_host&quot; ];then</div><div class="line">             cat /home/hadoop/idkeys/$hostname/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</div><div class="line">        fi</div><div class="line">done &lt; ./hosts</div><div class="line"></div><div class="line">chmod 600 ~/.ssh/authorized_keys</div><div class="line">#将完整的认证文件分发到所有的机器上</div><div class="line">while read line </div><div class="line">do</div><div class="line">        OLD_IFS=&quot;$IFS&quot;</div><div class="line">        IFS=&quot;:&quot;</div><div class="line">        array=($line)</div><div class="line">        IFS=&quot;$OLD_IFS&quot;</div><div class="line">        ip=$&#123;array[1]&#125;</div><div class="line">        hostname=$&#123;array[0]&#125;</div><div class="line">        local_host=&quot;`hostname --fqdn`&quot;</div><div class="line">        if [ &quot;$hostname&quot; != &quot;$local_host&quot; ];then</div><div class="line">            #第一次还是需要密码</div><div class="line">             ./scpnopas.exp ~/.ssh/authorized_keys hadoop $hostname  ~/.ssh/</div><div class="line"></div><div class="line"></div><div class="line">        fi</div><div class="line">done &lt; ./hosts</div><div class="line">#给authorized_keys赋权限600</div><div class="line">while read line </div><div class="line">do</div><div class="line">        OLD_IFS=&quot;$IFS&quot;</div><div class="line">        IFS=&quot;:&quot;</div><div class="line">        array=($line)</div><div class="line">        IFS=&quot;$OLD_IFS&quot;</div><div class="line">        ip=$&#123;array[1]&#125;</div><div class="line">        hostname=$&#123;array[0]&#125;</div><div class="line">        local_host=&quot;`hostname --fqdn`&quot;</div><div class="line">        if [ &quot;$hostname&quot; != &quot;$local_host&quot; ];then</div><div class="line">             #给authorized_keys赋权限600</div><div class="line">            ./chmod600.exp $hostname</div><div class="line"></div><div class="line">        fi</div><div class="line">done &lt; ./hosts</div></pre></td></tr></table></figure>
+<p>这是实现集群所有机器免密登录的核心脚本，具体的步骤思路是</p>
+<ul>
+<li>1 将必要的文件拷贝到集群其他机器上</li>
+<li>2 远程登录到集群中其他机器上，执行脚本。生成，各个集群自己的公钥和私钥</li>
+<li>3 将远程机器的所有公钥拷贝到hadoop1上，合并，然后分发到集群各个机器上</li>
+<li>4 远程登录每一台机器，将认证文件的权限赋为600</li>
+</ul>
+<p>然后执行脚本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./create_ssh.sh</div></pre></td></tr></table></figure></p>
+<p>即可完成整个集群的ssh免密登录，即使集群变更，只需要改hosts文件以及配置密码即可。</p>
+<p>需要说明的是，我这里面用到了expect，需要下载安装，我是在远程登录的会话中完成的，不是很妥当，建议在创建镜像时就使用yum进行安装。</p>
+<h2 id="集群时钟同步"><a href="#集群时钟同步" class="headerlink" title="集群时钟同步"></a>集群时钟同步</h2><p>在集群操作的场景下，集群各个机器之间的时间同步也是先决条件之一，本例中，采用的是ntp时钟同步。首先在home目录下创建createntp目录用于安放相应的脚本。</p>
+<h3 id="修改就群所有机器的时区"><a href="#修改就群所有机器的时区" class="headerlink" title="修改就群所有机器的时区"></a>修改就群所有机器的时区</h3><p>将集群时区修改成为东八区，语句很简单<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</div></pre></td></tr></table></figure></p>
+<p>其他机器上的用shell来解决。</p>
+<figure class="highlight vim"><figcaption><span>remote_change_ssh.exp```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">    #!/usr/bin/expect  </div><div class="line"><span class="keyword">set</span> timeout <span class="number">200</span></div><div class="line"><span class="keyword">set</span> ip [lindex $<span class="built_in">argv</span> <span class="number">0</span>]</div><div class="line"><span class="keyword">set</span> passwd Hadoop123</div><div class="line"></div><div class="line">#使用StrictHostKeyChecking=<span class="keyword">no</span>的选项使加入know_hosts的提示不再出现</div><div class="line">spawn ssh -oStrictHostKeyChecking=<span class="keyword">no</span> $ip</div><div class="line">expect <span class="string">"Last login:"</span></div><div class="line"></div><div class="line">#切换到root用户修改时区</div><div class="line">send <span class="string">"su root\r"</span></div><div class="line">expect <span class="string">"*assword:"</span> &#123;send <span class="string">"aaaa\r"</span>&#125;</div><div class="line">send <span class="string">"cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime\r"</span></div><div class="line">expect <span class="string">"*cp: overwrite `/etc/localtime'?*"</span> &#123;send <span class="string">"y\r"</span>&#125;</div><div class="line">send <span class="string">"exit\r"</span></div><div class="line">send <span class="string">"\r\r"</span></div><div class="line">send <span class="string">"exit\r\r"</span></div><div class="line">expect eof</div></pre></td></tr></table></figure>
+<figure class="highlight vim"><figcaption><span>create_time_zone.sh```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line"><span class="keyword">while</span> <span class="keyword">read</span> <span class="built_in">line</span></div><div class="line"><span class="keyword">do</span></div><div class="line">        OLD_IFS=<span class="string">"$IFS"</span></div><div class="line">        IFS=<span class="string">":"</span></div><div class="line">        array=($<span class="built_in">line</span>)</div><div class="line">        IFS=<span class="string">"$OLD_IFS"</span></div><div class="line">        ip=$&#123;array[<span class="number">1</span>]&#125;</div><div class="line">        <span class="built_in">hostname</span>=$&#123;array[<span class="number">0</span>]&#125;</div><div class="line">        local_host=<span class="string">"`hostname --fqdn`"</span></div><div class="line">        if [ "$hostname" != "$local_host" ];then</div><div class="line">                ./remote_change_ssh.<span class="built_in">exp</span> $<span class="built_in">hostname</span></div><div class="line">        fi</div><div class="line">done &lt; ./hosts</div></pre></td></tr></table></figure>
+<h3 id="ntp同步"><a href="#ntp同步" class="headerlink" title="ntp同步"></a>ntp同步</h3><p>ntp同步的原理就是配置一个server，其他slave不断的跟这个server进行同步，server端可以是互联网的具体时间，也可以是本地集群某一台机器的时间。本例中将hadoop1配置为server端，集群其他机器都与hadoop1连接同步时间。</p>
+<h4 id="所有机器上安装ntp，并设置为开机启动"><a href="#所有机器上安装ntp，并设置为开机启动" class="headerlink" title="所有机器上安装ntp，并设置为开机启动"></a>所有机器上安装ntp，并设置为开机启动</h4><figure class="highlight vim"><figcaption><span>remote_install_ntp.exp```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">#!/usr/bin/expect  </div><div class="line"><span class="keyword">set</span> timeout <span class="number">200</span></div><div class="line"><span class="keyword">set</span> ip [lindex $<span class="built_in">argv</span> <span class="number">0</span>]</div><div class="line"></div><div class="line">#使用StrictHostKeyChecking=<span class="keyword">no</span>的选项使加入know_hosts的提示不再出现</div><div class="line">spawn ssh -oStrictHostKeyChecking=<span class="keyword">no</span> $ip</div><div class="line">expect <span class="string">"Last login:"</span></div><div class="line"></div><div class="line">#切换到root用户修改时区</div><div class="line">send <span class="string">"su root\r"</span></div><div class="line">expect <span class="string">"*assword:"</span> &#123;send <span class="string">"aaaa\r"</span>&#125;</div><div class="line">send <span class="string">"yum install -y ntp\r"</span></div><div class="line">#设置ntp开机启动</div><div class="line">send <span class="string">"chkconfig ntpd on\r"</span></div><div class="line">send <span class="string">"exit\r"</span></div><div class="line">send <span class="string">"\r\r"</span></div><div class="line">send <span class="string">"exit\r\r"</span></div><div class="line">expect eof</div></pre></td></tr></table></figure>
+<figure class="highlight vim"><figcaption><span>create_install_ntp.sh```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<p>while read line<br>do<br>        OLD_IFS=”$IFS”<br>        IFS=”:”<br>        array=($line)<br>        IFS=”$OLD_IFS”<br>        ip=${array[1]}<br>        hostname=${array[0]}<br>        ./remote_install_ntp.exp $hostname</p>
+<p>done &lt; ./hosts<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">执行shell  ```./create_install_ntp.sh</div></pre></td></tr></table></figure></p>
+<h4 id="配置内网NTP-server（hadoop1）"><a href="#配置内网NTP-server（hadoop1）" class="headerlink" title="配置内网NTP-server（hadoop1）"></a>配置内网NTP-server（hadoop1）</h4><p>此步是在你要设置成NTP服务的机器上配置，它将给内网所有的机器进行授时，即内网所有机器都是以它的时间为准。</p>
+<p>我这里选择的是192.168.1.71。</p>
+<p>先使用ntpdate手动同步下内网中作为 NTPD 服务器的时间，免得本机与外部时间服务器时间差距太大，让ntpd不能正常同步。即在 192.168.1.71上执行:</p>
+<figure class="highlight plain"><figcaption><span>-u 1.cn.pool.ntp.org``` </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">发现报错：</div></pre></td></tr></table></figure>
+<p>24 Jan 00:41:28 ntpdate[1038]: no server suitable for synchronization found<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">网上很多针对这种错误的都是一样的，我试过不行，后来换了一个地址就OK了</div><div class="line">```ntpdate -u 2.asia.pool.ntp.org</div></pre></td></tr></table></figure></p>
+<p>结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">23 Jan 17:23:29 ntpdate[1051]: step time server 157.7.208.12 offset -28883.755634 sec</div></pre></td></tr></table></figure></p>
+<p>然后要找到可以正常提供时间服务的外部主机，执行以下命令:<br><figure class="highlight plain"><figcaption><span>-q 2.cn.pool.ntp.org```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">必要的信息已经获取，现在正是开始配置NTP,```vim /etc/ntp.conf</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"># Hosts on local network are less restricted.</div><div class="line">#restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</div><div class="line">#设置对内网主机提供NTP服务。我的集群网关是192.168.1.1</div><div class="line">restrict 192.168.1.1 mask 255.255.255.0 nomodify notrap</div><div class="line"></div><div class="line"># # Use public servers from the pool.ntp.org project.</div><div class="line"># # Please consider joining the pool (http://www.pool.ntp.org/join.html).</div><div class="line"># #注释掉centos默认的对时服务器，如果主机能访问外网，最好做这一步</div><div class="line">#server 0.centos.pool.ntp.org iburst</div><div class="line">#server 1.centos.pool.ntp.org iburst</div><div class="line">#server 2.centos.pool.ntp.org iburst</div><div class="line">#server 3.centos.pool.ntp.org iburst</div><div class="line"></div><div class="line">#指定上层对时的外部服务器，这些都是上面刚刚得到的可以正常提供时间服务的外部主机</div><div class="line">server 212.47.249.141</div><div class="line">server 202.118.176.2</div><div class="line">server 203.135.184.123  perfer</div><div class="line">#修改上层服务器对本机的权限</div><div class="line">restrict 212.47.249.141 nomodify notrap noquery</div><div class="line">restrict 202.118.176.2  nomodify notrap noquery</div><div class="line">restrict 203.135.184.123  nomodify notrap noquery</div><div class="line"># #外部时间服务器不可用时，设置以本地时间作为时间服务</div><div class="line">server  127.127.1.0     # local clock</div><div class="line">fudge   127.127.1.0 stratum 10</div></pre></td></tr></table></figure>
+<h4 id="同步硬件时间"><a href="#同步硬件时间" class="headerlink" title="同步硬件时间"></a>同步硬件时间</h4><p>在 Linux 下系统时间在开机的时候会和硬件时间同步(synchronization),之后也就各自独立运行了，那么既然两个时钟独自运行,那么时间久了必然就会产生误差了,而 NTP 默认又只更新系统时间,因此我们需要设置硬件时钟进行同步调整<br><figure class="highlight plain"><figcaption><span>/etc/sysconfig/ntpd```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line"># Drop root to id &apos;ntp:ntp&apos; by default.</div><div class="line">SYNC_HWCLOCK=yes</div><div class="line">OPTIONS=&quot;-u ntp:ntp -p /var/run/ntpd.pid -g&quot;</div></pre></td></tr></table></figure></p>
+<h4 id="启动ntp服务，查看相关状态，验证"><a href="#启动ntp服务，查看相关状态，验证" class="headerlink" title="启动ntp服务，查看相关状态，验证"></a>启动ntp服务，查看相关状态，验证</h4><figure class="highlight plain"><figcaption><span>ntpd start```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">查看服务连接和监听```netstat -tlunp | grep ntp</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@hadoop1 createntp]# netstat -tlunp | grep ntp</div><div class="line">udp        0      0 192.168.1.71:123            0.0.0.0:*                           1076/ntpd           </div><div class="line">udp        0      0 127.0.0.1:123               0.0.0.0:*                               1076/ntpd           </div><div class="line">udp        0      0 0.0.0.0:123                 0.0.0.0:*                               1076/ntpd           </div><div class="line">udp        0      0 :::123                      :::*                                    1076/ntpd</div></pre></td></tr></table></figure>
+<p>查看网络中的NTP服务器，同时显示客户端和每个服务器的关系<figure class="highlight plain"><figcaption><span>-p```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">     remote           refid      st t when poll reach   delay   offset  jitter</div><div class="line">==============================================================================</div><div class="line"> ntp2.itcomplian .INIT.          16 u    -   64    0    0.000    0.000   0.000</div><div class="line"> 202.118.176.2   .INIT.          16 u    -   64    0    0.000    0.000   0.000</div><div class="line"> leontp.ccgs.wa. .INIT.          16 u    -   64    0    0.000    0.000   0.000</div><div class="line">*LOCAL(0)        .LOCL.          10 l   54   64    3    0.000    0.000   0.000</div></pre></td></tr></table></figure></p>
+<p>查看时间同步状态<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">synchronised to local net at stratum 11 </div><div class="line">time correct to within 1949 ms</div><div class="line">polling server every 64 s</div></pre></td></tr></table></figure></p>
+<h4 id="配置NTP-client-这是在除192-168-11-71的其他机器上进行"><a href="#配置NTP-client-这是在除192-168-11-71的其他机器上进行" class="headerlink" title="配置NTP-client,这是在除192.168.11.71的其他机器上进行"></a>配置NTP-client,这是在除192.168.11.71的其他机器上进行</h4><p>同样的还是采取shell的方式进行，主要步骤如下：</p>
+<ul>
+<li>配置ntp.conf将server改成192.168.1.71</li>
+<li>配置同步硬件时间</li>
+<li>启动ntp-client</li>
+<li>手动更新时间</li>
+</ul>
+<p>切换回来hadoop用户 <figure class="highlight plain"><figcaption><span>hadoop```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">配置客户端文件```vim ntp.conf</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">#restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</div><div class="line"></div><div class="line"># Use public servers from the pool.ntp.org project.</div><div class="line"># Please consider joining the pool (http://www.pool.ntp.org/join.html).</div><div class="line">#server 0.centos.pool.ntp.org iburst</div><div class="line">#server 1.centos.pool.ntp.org iburst</div><div class="line">#server 2.centos.pool.ntp.org iburst</div><div class="line">#server 3.centos.pool.ntp.org iburst</div><div class="line"></div><div class="line">#对时服务器，配置成ntp-server的机器</div><div class="line">server 192.168.1.71</div><div class="line">restrict 192.168.11.11 nomodify notrap noquery</div><div class="line"></div><div class="line">server  127.127.1.0     # local clock</div><div class="line">fudge   127.127.1.0 stratum 10</div></pre></td></tr></table></figure>
+<p>编写远程登录脚本<figure class="highlight vim"><figcaption><span>conf_ntp.exp```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">#!/usr/bin/expect  </div><div class="line"><span class="keyword">set</span> timeout <span class="number">200</span></div><div class="line"><span class="keyword">set</span> ip [lindex $<span class="built_in">argv</span> <span class="number">0</span>]</div><div class="line"></div><div class="line">#使用StrictHostKeyChecking=<span class="keyword">no</span>的选项使加入know_hosts的提示不再出现</div><div class="line">spawn ssh -oStrictHostKeyChecking=<span class="keyword">no</span> $ip</div><div class="line">expect <span class="string">"Last login:"</span></div><div class="line"></div><div class="line">#切换到root用户修改时区</div><div class="line">send <span class="string">"su root\r"</span></div><div class="line">expect <span class="string">"*assword:"</span> &#123;send <span class="string">"aaaa\r"</span>&#125;</div><div class="line">#复制配置文件</div><div class="line">send <span class="string">"cp /home/hadoop/ntp.conf /etc/ntp.conf \r"</span></div><div class="line">expect <span class="string">"*cp: overwrite `/etc/ntp.conf'*"</span> &#123;send <span class="string">"y\r"</span>&#125;</div><div class="line">send <span class="string">"echo SYNC_HWCLOCK=yes &gt;&gt; /etc/sysconfig/ntpd\r"</span></div><div class="line">send <span class="string">"service ntpd start\r"</span></div><div class="line">send <span class="string">"ntpdate -u 192.168.1.71\r"</span></div><div class="line">send <span class="string">"exit\r"</span></div><div class="line">send <span class="string">"\r\r"</span></div><div class="line">send <span class="string">"exit\r\r"</span></div><div class="line">expect eof</div></pre></td></tr></table></figure></p>
+<p>编写shell脚本<figure class="highlight vim"><figcaption><span>conf_ntp.sh```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line"><span class="keyword">while</span> <span class="keyword">read</span> <span class="built_in">line</span></div><div class="line"><span class="keyword">do</span></div><div class="line">        OLD_IFS=<span class="string">"$IFS"</span></div><div class="line">        IFS=<span class="string">":"</span></div><div class="line">        array=($<span class="built_in">line</span>)</div><div class="line">        IFS=<span class="string">"$OLD_IFS"</span></div><div class="line">        ip=$&#123;array[<span class="number">1</span>]&#125;</div><div class="line">        <span class="built_in">hostname</span>=$&#123;array[<span class="number">0</span>]&#125;</div><div class="line"></div><div class="line">        #复制配置文件</div><div class="line">        scp ./ntp.<span class="keyword">conf</span> hadoop@$ip:~/</div><div class="line">        #远程登录并且启动ntp同步</div><div class="line">        ./conf_ntp.<span class="built_in">exp</span> $ip</div><div class="line">done &lt; ./hosts</div></pre></td></tr></table></figure></p>
+<p>切换回来hadoop用户 <figure class="highlight plain"><figcaption><span>hadoop```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">执行脚本```./conf_ntp.sh</div></pre></td></tr></table></figure></p>
+<h1 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h1><p>hadoop是整个大数据集群的基础，有两大核心HDFS和MapReduce，具体的原理和作用不再赘述，在本次搭建的集群中，hadoop主要提供底层hdfs的存储性能。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/17/docker搭建完全分布式大数据集群之开始构建大数据集群/" rel="next" title="Docker搭建分布式大数据环境之开始构建大数据集群">
+                <i class="fa fa-chevron-left"></i> Docker搭建分布式大数据环境之开始构建大数据集群
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/05/maven-shade-plugin解决jar包冲突的问题/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/a.jpg"
+                alt="大鱼" />
+            
+              <p class="site-author-name" itemprop="name">大鱼</p>
+              <p class="site-description motion-element" itemprop="description">鱼木鱼的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集群通信的一些准备工作"><span class="nav-number">2.</span> <span class="nav-text">集群通信的一些准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#集群免密登录"><span class="nav-number">2.1.</span> <span class="nav-text">集群免密登录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hosts："><span class="nav-number">2.1.1.</span> <span class="nav-text">hosts：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create-rsa-sh"><span class="nav-number">2.1.2.</span> <span class="nav-text">create_rsa.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scpnopas-exp"><span class="nav-number">2.1.3.</span> <span class="nav-text">scpnopas.exp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#remote-create-ssh-exp"><span class="nav-number">2.1.4.</span> <span class="nav-text">remote_create_ssh.exp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chmod600-exp"><span class="nav-number">2.1.5.</span> <span class="nav-text">chmod600.exp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create-ssh-sh"><span class="nav-number">2.1.6.</span> <span class="nav-text">create_ssh.sh</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群时钟同步"><span class="nav-number">2.2.</span> <span class="nav-text">集群时钟同步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改就群所有机器的时区"><span class="nav-number">2.2.1.</span> <span class="nav-text">修改就群所有机器的时区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ntp同步"><span class="nav-number">2.2.2.</span> <span class="nav-text">ntp同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#所有机器上安装ntp，并设置为开机启动"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">所有机器上安装ntp，并设置为开机启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置内网NTP-server（hadoop1）"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">配置内网NTP-server（hadoop1）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同步硬件时间"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">同步硬件时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动ntp服务，查看相关状态，验证"><span class="nav-number">2.2.2.4.</span> <span class="nav-text">启动ntp服务，查看相关状态，验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置NTP-client-这是在除192-168-11-71的其他机器上进行"><span class="nav-number">2.2.2.5.</span> <span class="nav-text">配置NTP-client,这是在除192.168.11.71的其他机器上进行</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hadoop"><span class="nav-number">3.</span> <span class="nav-text">Hadoop</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大鱼</span>
+
+  
+</div>
+
+
+  <div class="powered-by">鱼木鱼个人博客</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">邮箱:404625710@qq.com &mdash; </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://ygs.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/11/17/docker搭建完全分布式大数据集群之集群免密登录和时钟同步/';
+          this.page.identifier = '2017/11/17/docker搭建完全分布式大数据集群之集群免密登录和时钟同步/';
+          this.page.title = 'docker搭建完全分布式大数据集群之集群免密登录和时钟同步';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ygs.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("YjhS4rwIKwKG64w4TkIAQ5T7-gzGzoHsz", "JyeUWP0bblTw6wbSE3GLWe3U");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+</body>
+</html>
