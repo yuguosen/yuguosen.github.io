@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="大数据," />
+  <meta name="keywords" content="机器学习," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="在已经安装好的CentOS7系统上安装Docker并初始化一些容器">
-<meta name="keywords" content="大数据">
+<meta name="description" content="支持向量机以及boosting">
+<meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker搭建分布式大数据环境之docker">
-<meta property="og:url" content="http://yoursite.com/2017/10/11/docker搭建完全分布式大数据平台之docker/index.html">
+<meta property="og:title" content="机器学习常见算法及其原理1">
+<meta property="og:url" content="http://yoursite.com/2018/03/05/机器学习常见算法及其原理1_svm/index.html">
 <meta property="og:site_name" content="北冥有鱼">
-<meta property="og:description" content="在已经安装好的CentOS7系统上安装Docker并初始化一些容器">
+<meta property="og:description" content="支持向量机以及boosting">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-14T12:25:29.895Z">
+<meta property="og:updated_time" content="2018-03-05T07:07:16.874Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker搭建分布式大数据环境之docker">
-<meta name="twitter:description" content="在已经安装好的CentOS7系统上安装Docker并初始化一些容器">
+<meta name="twitter:title" content="机器学习常见算法及其原理1">
+<meta name="twitter:description" content="支持向量机以及boosting">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/10/11/docker搭建完全分布式大数据平台之docker/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/05/机器学习常见算法及其原理1_svm/"/>
 
 
 
 
 
-  <title>Docker搭建分布式大数据环境之docker | 北冥有鱼</title>
+  <title>机器学习常见算法及其原理1 | 北冥有鱼</title>
   
 
 
@@ -298,12 +298,12 @@
   
   
 
-  <article class="post post-type-categories" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-ml" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/11/docker搭建完全分布式大数据平台之docker/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/05/机器学习常见算法及其原理1_svm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大鱼">
@@ -320,7 +320,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Docker搭建分布式大数据环境之docker</h1>
+          <h1 class="post-title" itemprop="name headline">机器学习常见算法及其原理1</h1>
         
 
         <div class="post-meta">
@@ -332,8 +332,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-11T15:50:28+08:00">
-                2017-10-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T10:50:28+08:00">
+                2018-03-05
               </time>
             
 
@@ -351,9 +351,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/10/11/docker搭建完全分布式大数据平台之docker/#comments" itemprop="discussionUrl">
+                <a href="/2018/03/05/机器学习常见算法及其原理1_svm/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/10/11/docker搭建完全分布式大数据平台之docker/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/03/05/机器学习常见算法及其原理1_svm/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -361,7 +361,7 @@
 
           
           
-             <span id="/2017/10/11/docker搭建完全分布式大数据平台之docker/" class="leancloud_visitors" data-flag-title="Docker搭建分布式大数据环境之docker">
+             <span id="/2018/03/05/机器学习常见算法及其原理1_svm/" class="leancloud_visitors" data-flag-title="机器学习常见算法及其原理1">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -379,7 +379,7 @@
 
           
               <div class="post-description">
-                  在已经安装好的CentOS7系统上安装Docker并初始化一些容器
+                  支持向量机以及boosting
               </div>
           
 
@@ -396,83 +396,41 @@
       
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<a href="https://yuguosen.github.io/2017/10/09/docker%E6%90%AD%E5%BB%BA%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%8E%AF%E5%A2%83%E4%B9%8BCentOS%E7%9A%84%E4%B8%80%E4%BA%9B%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AE%BE%E7%BD%AE/" target="_blank" rel="external">Docker搭建分布式大数据环境之CentOS的一些初始化设置</a>中已经将CentOs系统安装在移动硬盘上，成为一个即插即用的移动系统，想要启动它只需要一台电脑即可。接下来我们就在这个CentOS系统上开始通过Docker搭建完整的大数据平台。</p>
-<h1 id="Docker安装"><a href="#Docker安装" class="headerlink" title="Docker安装"></a>Docker安装</h1><p>Docker对Linux系统版本有一定的要求，64位内核版本失少位3.10，CentOS系列6.5以上都是妥妥的，查看系统内核版本的命令：</p>
-<pre><code>uname  -r
-</code></pre><h2 id="安装docker的yum源"><a href="#安装docker的yum源" class="headerlink" title="安装docker的yum源"></a>安装docker的yum源</h2><pre><code>tee /etc/yum.repos.d/docker.repo &lt;&lt;-&apos;EOF&apos;
-[dockerrepo]
-name=Docker Repository
-baseurl=https://yum.dockerproject.org/repo/main/centos/7/
-enabled=1
-gpgcheck=1
-gpgkey=https://yum.dockerproject.org/gpg
-EOF
-</code></pre><h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><pre><code>yum -y install docker-engine
-</code></pre><h2 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h2><pre><code>systemctl start docker.service
-</code></pre><h2 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h2><pre><code>systemctl enable docker.service
-</code></pre><h2 id="查看docker版本"><a href="#查看docker版本" class="headerlink" title="查看docker版本"></a>查看docker版本</h2><pre><code>docker -v    
-</code></pre><h2 id="查看docker具体信息"><a href="#查看docker具体信息" class="headerlink" title="查看docker具体信息"></a>查看docker具体信息</h2><pre><code>docker info
-</code></pre><p>到此，整个Docker已经安装完毕接下来要做的是拉取我们的容器CentOS镜像。</p>
-<h1 id="运行第一个Docker容器"><a href="#运行第一个Docker容器" class="headerlink" title="运行第一个Docker容器"></a>运行第一个Docker容器</h1><h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><pre><code>docker pull centos:7 
-</code></pre><p>下载完后，查看本地资源库：<br>    docker images</p>
-<h2 id="运行一个容器"><a href="#运行一个容器" class="headerlink" title="运行一个容器"></a>运行一个容器</h2><pre><code>docker run -i -t --name=&quot;test&quot; -h=&quot;test&quot; centos:7 /bin/bash
-</code></pre><p>查看正在运行的到docker容器：</p>
-<pre><code>docker ps
-</code></pre><p>进入容器：</p>
-<pre><code>docker attach test
-</code></pre><p>退出容器：</p>
-<pre><code>ctrl+p+q
-</code></pre><h1 id="开始准备我们大数据集群"><a href="#开始准备我们大数据集群" class="headerlink" title="开始准备我们大数据集群"></a>开始准备我们大数据集群</h1><h2 id="Docker容器固定ip"><a href="#Docker容器固定ip" class="headerlink" title="Docker容器固定ip"></a>Docker容器固定ip</h2><p>docker默认使用桥接模式,容器通过网桥连接到宿主机,而容器内部的ip则是从网桥所在的网段上选取没有被使用的IP，这样对于我们而言是不行的，因为我们是一个集群，每一台服务器都需要一个固定的IP，因此需要改变Docker的网络配置。有很多项目使用overlay来为docker提供网络的配置，比如Pipework、Flannel、Kubernetes、Weave、opencontrail等，这里使用pipework来为docker配置网络</p>
-<h3 id="安装pipework"><a href="#安装pipework" class="headerlink" title="安装pipework"></a>安装pipework</h3><p>安装git</p>
-<pre><code>yum install -y git
-</code></pre><p>下载pipework</p>
-<pre><code>git clone https://github.com/jpetazzo/pipework
-</code></pre><p>注意，没有特殊声明的话都默认放在宿主机的home目录</p>
-<p>将pipework命令放到bin目录下：</p>
-<pre><code>cp pipework/pipework  /usr/local/bin/
-chmod a+x /usr/local/bin/pipework
-</code></pre><p>给宿主机创建网桥</p>
-<pre><code>vim /etc/sysconfig/network-scripts/ifcfg-enp1s0
-TYPE=Ethernet
-PROXY_METHOD=none
-BROWSER_ONLY=no
-#BOOTPROTO=static
-#DEFROUTE=yes
-#IPV4_FAILURE_FATAL=no
-NAME=enp1s0
-UUID=2f40d3cd-45fc-4e08-a153-bdfb1e93e751
-DEVICE=enp1s0
-ONBOOT=yes
-#IPADDR=192.168.1.62
-#GETWAY=192.168.1.1
-#DNS1=192.168.1.1
-#DNS2=8.8.8.8
-BRIDGE=br0
-</code></pre><p>主要就是注释掉一开始我们给宿主机设固定IP是指定的一些与IP地址有关的信息</p>
-<p>设置物理网卡桥接到网桥</p>
-<pre><code>vim ifcfg-br0
-TYPE=&quot;Bridge&quot;
-BOOTPROTO=static
-IPADDR=192.168.1.62
-NETMASK=255.255.255.0
-GATEWAY=192.168.1.1
-PREFIX=24
-DNS1=8.8.8.8
-DNS2=192.168.252.3
-DNS3=192.168.1.1
-NAME=br0
-ONBOOT=yes
-DEVICE=br0
-</code></pre><p>重启网络服务：</p>
-<pre><code>systemctl restart network
-</code></pre><p>新建一个容器并使用pipework指定ip为192.168.1.71：</p>
-<pre><code>docker run -itd --net=none --name=&quot;test2&quot; -h=&quot;test2&quot;  centos:7 /bin/bash
-pipework br0 test2 192.168.1.71/24@192.168.1.1
-</code></pre><p>进入容器之后发现连ip命令也没有，那就只好装一个了：</p>
-<pre><code>yum install -y net-tools
-</code></pre><p>完成之后使用ifconfig命令即可查看test2容器的ip地址，但这里会有一个问题，就是每次重启容器的时候都需要使用pipework给容器重新分配ip，这里的解决思路就是将指定IP的操作放在开机启动，具体的操作后面会详细的说明。</p>
-<p>这一步完成之后后面的事就会简单很多，我今年在用这个搞毕设的时候，网桥这部分老是出现问题，最后用血泪总结了这么些内容。</p>
-<p>到这里Docker一些基本的东西都搞的差不多了，接下来就是正式搭建我们的大数据集群了。<br>yum install -y bridge-utils</p>
+        <h1 id="支持向量机svm"><a href="#支持向量机svm" class="headerlink" title="支持向量机svm"></a>支持向量机svm</h1><h2 id="svm之线性分类器"><a href="#svm之线性分类器" class="headerlink" title="svm之线性分类器"></a>svm之线性分类器</h2><p>如果一个能用一个线性函数将一个样本正确的分开，则称样本是线性可分的。在以为空间中线性函数就是一个点，二维空间中就是一条直线，三维空间就是一个面，高维的依次类推。<br>假设样本的标签取值是-1和1，那么这个线性函数的方程就可以描述为：</p>
+<p>$$ g(x)=W^TX+b=0 $$<br>那么对于一个分类器来说，g(x)&gt;0和g(x)&lt;0就可以分别代表两个不同的类别。但是光分开是不够的，以二维空间的线性分类为例，在一个线性可分的集合样本中，一条直线距离两边的点的距离越远，显然它的鲁棒性是最好的，对于新加入的点的容忍性也会更强。这就是svm的核心思想：<strong>尽最大努力使分开的两个类别有最大间隔，这样才使得分隔具有更高的可信度。而且对于未知的新样本才有很好的分类预测能力（在机器学习中叫泛化能力）</strong></p>
+<p>那么怎么描述这个间隔，并且让它最大呢？SVM的办法是：让离分隔面最近的数据点具有最大的距离。<br>为了描述离分隔超平面最近的数据点，需要找到两个和这个超平面平行和距离相等的超平面：H1: y = wTX + b=+1 和 H2: y = wTX + b=-1.</p>
+<p>在这两个超平面上的样本点也就是理论上离分隔超平面最近的点，是它们的存在决定了H1和H2的位置，支撑起了分界线，它们就是所谓的支持向量，这就是支持向量机的由来<br>有了这两个超平面就可以顺理成章的定义上面提到的间隔（margin）了<br>二维情况下 ax+by=c1和ax+by=c两条平行线的距离公式为：</p>
+<p>$$ d=\frac{|c-c _1|}{\sqrt{a^2+b^2}} $$<br>由此可以推出这两个超平面之间的距离是2/||w||,需要求出此函数的最大值,就是需要求出||w||的最小值,即等价于求函数：</p>
+<p>$$ \frac{1}{2}w^2 $$<br>的最小值,其约束条件是:</p>
+<p>$$\begin{cases}<br>W^Tx_i+b&gt;=1,\quad y_i=1\<br>W^Tx_i+b&lt;=-1, \quad y_i=-1<br>\end{cases}<br>$$<br>简化一下上式，即有：</p>
+<p>$$ y_i(W^Tx_i+b)&gt;=1  $$</p>
+<p>现在这个问题就变成了一个最优化问题：</p>
+<p>$$<br>\begin{cases}<br>    min\frac{1}{2}||w||^2\<br>    s.t.1-y_i(W^Tx_i+b)&lt;=0<br>\end{cases}<br>$$<br>这是一个凸二次规划问题,在数学上拉格朗日乘子法能够很好的解决这个问题.根据上面的函数式，构造拉格朗日函数如下：</p>
+<p>$$<br>    L(W,b,\alpha)=\frac{1}{2}WW^T+\sum\alpha_i(1-y_i(W^Tx_i+b))<br>                =\frac{1}{2}WW^T-\sum\alpha_iy_i(W^Tx_i+b)-\alpha_i<br>$$<br>求解的过程是对W和b求各自的偏导数:</p>
+<p>$$<br>\begin{cases}<br>W-\sum\alpha_iy_ix_i=0\<br>\sum\alpha_iy_i=0<br>\end{cases}<br>$$<br>然后再代入拉格朗日函数后得到原问题的对偶问题：</p>
+<p>$$<br>\begin{cases}<br>MAX. W(\alpha)=\sum\alpha_i-\frac{1}{2}\sum\sum\alpha_i\alpha_jy_iy_jX^T_iX_j\<br>s.t.\alpha_i&gt;=0 ,\sum\alpha_iy_i=0<br>\end{cases}<br>$$<br>现在已经完成了对这个问题的建模过程。<br>当要对一个数据点分类是，只需要把待分类的数据点带入g(x)中，把结果和正负号对比。又由上面计算得到的w，带入g(x)得到：</p>
+<p>$$<br>    g(x)=\sum\alpha_iy_i<x_i,x>+b<br>$$</x_i,x></p>
+<h2 id="svm之非线性分类"><a href="#svm之非线性分类" class="headerlink" title="svm之非线性分类"></a>svm之非线性分类</h2><p>上述的方式是在线性的训练集中进行讨论的，而对于非线性问题则不能很好的解决,但是一个低维的非线性样本映射到高维的空间中去则是线性可分的,那样的话svm就可以继续工作。设映射函数为Φ(•)，则映射后的空间分类函数变成:</p>
+<p>$$<br>f(x)=\sum\alpha_iy_i&lt;\phi(x_i),\phi(x)&gt;+b<br>$$</p>
+<p>但是直接将地位映射搞高维函数中,维的s数目就会呈现爆炸性增长，数学上可以引入核函数的概念来优化这个问题.</p>
+<p>核函数的思想是寻找一个函数，这个函数使得在低维空间中进行计算的结果和映射到高维空间中计算内积&lt;Φ(x­1), Φ(x2)&gt;的结果相同,即：</p>
+<p>$$<br>k(x_i,x_j)=&lt;\phi(x_i),\phi(x_j)&gt;=\phi(x_i)^T\phi(x_j)<br>$$</p>
+<p>这样就避开直接在高维空间中进行计算，而最后的结果却是等价的。<br>现在，分类函数就变成了这样：</p>
+<p>$$<br>    g(x)=\sum \alpha_iy_ik(x_i,x_j)+b<br>$$<br>在上式中核函数是一个未知的因素，因此核函数的选择成了svm的最大变数，如果核函数选择不合适,则意味着将样本映射到了一个不合适的特征空间，很可能导致性能不佳，常用的几种核函数有：线性核函数，多项式核函数，高斯核函数，拉普拉斯核函数，Sigmoid核函数</p>
+<h2 id="svm分类的容错性"><a href="#svm分类的容错性" class="headerlink" title="svm分类的容错性"></a>svm分类的容错性</h2><p>在前面的讨论中我们一直致力于寻找能够完美拟合的模型，但是在实际的情况下，训练集的偏差和噪音是普遍存在的，所以一个健壮的模型应该有一定的容错性,那么svm的约束条件就可以变成：</p>
+<p>$$y_i(W^Tx_i+b)&gt;=1-\xi_i$$<br>其中</p>
+<p>$$\xi_i&gt;=0$$<br>被称为松弛变量.</p>
+<p>所以需要在原目标函数中加入损失函数，可以用</p>
+<p>$$\sum\xi_i$$<br>或</p>
+<p>$$\sum\xi^2$$<br>用前者的话，叫一阶软间隔分类器；用后者的话就叫二阶软间隔分类器。</p>
+<p>还需要一个惩罚因子C（cost），它代表了对离群点带来的损失的重视程度，它的值越大，对目标函数的损失越大，意味着你非常不愿意放弃这些点。</p>
+<p>它是由使用者指定的一个值（libsvm中的参数C），是参数调优的重点所在。<br>原来的优化问题就变成了下面这样:</p>
+<p>$$<br>\begin{cases}<br>min \frac{1}{2}||W||^2+C\sum\xi_i\<br>s.t.y_i(wx_i+b)&gt;=1-\xi_i\<br>s.t.\xi_i&gt;=0<br>\end{cases}<br>$$</p>
+<p>再同样使用拉格朗日乘子法得到对偶问题。</p>
+<p>这才是一个可以处理线性和非线性情况并能容忍噪音和outlier的SVM！</p>
+<h2 id="svm用于多分类问题"><a href="#svm用于多分类问题" class="headerlink" title="svm用于多分类问题"></a>svm用于多分类问题</h2><p>svm本身是一种典型的二分类器，那如何处理现实中的多分类问题呢？<br>常用的有三种方法：</p>
+<h3 id="一对多"><a href="#一对多" class="headerlink" title="一对多"></a>一对多</h3><p>也就是“一对其余”（One-against-All） 的方式，就是每次仍然解一个两类分类的问题。<br>这样对于n个样本会得到n个分类器。<br>但是这种方式可能会出现分类重叠现象或者不可分类现象<br>而且由于“其余”的数据集过大，这样其实就人为造成了“数据偏斜”的问题</p>
+<h3 id="一对一"><a href="#一对一" class="headerlink" title="一对一"></a>一对一</h3><p>每次选择一个类作为正样本，负样本只用选其余的一个类，这样就避免了数据偏斜的问题。<br>很明显可以看出这种方法训练出的分类个数是k*(k-1)/2，虽然分类器的个数比上面多了，但是训练阶段所用的总时间却比“一类对其余”方法少很多。<br>这种方法可能使多个分类器指向同一个类别，所以可以采用“投票”的方式确定哪个类别：哪个分类器获得的票数多就是哪个分类器。<br>这种方式也会有分类重叠的现象，但是不会有不可分类的情况，因为不可能所有类别的票数都是0。<br>但是也很容易发现这种方法是分类器的数目呈平方级上升。</p>
 
       
     </div>
@@ -490,7 +448,7 @@ pipework br0 test2 192.168.1.71/24@192.168.1.1
       
         <div class="post-tags">
           
-            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
           
         </div>
       
@@ -503,8 +461,8 @@ pipework br0 test2 192.168.1.71/24@192.168.1.1
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/11/maven-shade-plugin解决jar包冲突的问题/" rel="next" title="maven-shade-plugin解决jar包冲突解决">
-                <i class="fa fa-chevron-left"></i> maven-shade-plugin解决jar包冲突解决
+              <a href="/2018/03/05/机器学习常见算法及其原理2_逻辑回归/" rel="next" title="机器学习常见算法及其原理">
+                <i class="fa fa-chevron-left"></i> 机器学习常见算法及其原理
               </a>
             
           </div>
@@ -512,10 +470,6 @@ pipework br0 test2 192.168.1.71/24@192.168.1.1
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/17/docker搭建完全分布式大数据集群之开始构建大数据集群/" rel="prev" title="Docker搭建分布式大数据环境之开始构建大数据集群">
-                Docker搭建分布式大数据环境之开始构建大数据集群 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -606,7 +560,7 @@ pipework br0 test2 192.168.1.71/24@192.168.1.1
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -619,7 +573,7 @@ pipework br0 test2 192.168.1.71/24@192.168.1.1
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -654,7 +608,7 @@ pipework br0 test2 192.168.1.71/24@192.168.1.1
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker安装"><span class="nav-number">2.</span> <span class="nav-text">Docker安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装docker的yum源"><span class="nav-number">2.1.</span> <span class="nav-text">安装docker的yum源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装docker"><span class="nav-number">2.2.</span> <span class="nav-text">安装docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动docker"><span class="nav-number">2.3.</span> <span class="nav-text">启动docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置开机启动"><span class="nav-number">2.4.</span> <span class="nav-text">设置开机启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看docker版本"><span class="nav-number">2.5.</span> <span class="nav-text">查看docker版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看docker具体信息"><span class="nav-number">2.6.</span> <span class="nav-text">查看docker具体信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运行第一个Docker容器"><span class="nav-number">3.</span> <span class="nav-text">运行第一个Docker容器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载镜像"><span class="nav-number">3.1.</span> <span class="nav-text">下载镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行一个容器"><span class="nav-number">3.2.</span> <span class="nav-text">运行一个容器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始准备我们大数据集群"><span class="nav-number">4.</span> <span class="nav-text">开始准备我们大数据集群</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker容器固定ip"><span class="nav-number">4.1.</span> <span class="nav-text">Docker容器固定ip</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装pipework"><span class="nav-number">4.1.1.</span> <span class="nav-text">安装pipework</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#支持向量机svm"><span class="nav-number">1.</span> <span class="nav-text">支持向量机svm</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#svm之线性分类器"><span class="nav-number">1.1.</span> <span class="nav-text">svm之线性分类器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#svm之非线性分类"><span class="nav-number">1.2.</span> <span class="nav-text">svm之非线性分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#svm分类的容错性"><span class="nav-number">1.3.</span> <span class="nav-text">svm分类的容错性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#svm用于多分类问题"><span class="nav-number">1.4.</span> <span class="nav-text">svm用于多分类问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一对多"><span class="nav-number">1.4.1.</span> <span class="nav-text">一对多</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一对一"><span class="nav-number">1.4.2.</span> <span class="nav-text">一对一</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -817,9 +771,9 @@ pipework br0 test2 192.168.1.71/24@192.168.1.1
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/10/11/docker搭建完全分布式大数据平台之docker/';
-          this.page.identifier = '2017/10/11/docker搭建完全分布式大数据平台之docker/';
-          this.page.title = 'Docker搭建分布式大数据环境之docker';
+          this.page.url = 'http://yoursite.com/2018/03/05/机器学习常见算法及其原理1_svm/';
+          this.page.identifier = '2018/03/05/机器学习常见算法及其原理1_svm/';
+          this.page.title = '机器学习常见算法及其原理1';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://ygs.disqus.com/embed.js';

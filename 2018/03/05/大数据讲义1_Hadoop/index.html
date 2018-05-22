@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="大数据," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="大数据概览">
+<meta name="keywords" content="大数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据讲义1">
+<meta property="og:url" content="http://yoursite.com/2018/03/05/大数据讲义1_Hadoop/index.html">
+<meta property="og:site_name" content="北冥有鱼">
+<meta property="og:description" content="大数据概览">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/03/05/images/hdfs.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/03/05/images/hdfs_write.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/03/05/images/hdfs_read.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/03/05/images/mr.png">
+<meta property="og:updated_time" content="2018-03-07T02:13:07.936Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大数据讲义1">
+<meta name="twitter:description" content="大数据概览">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/05/images/hdfs.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/05/大数据讲义1_Hadoop/"/>
+
+
+
+
+
+  <title>大数据讲义1 | 北冥有鱼</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?968cfc32895dcdfd0ad56df80f1689df";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">北冥有鱼</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-BigData" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/05/大数据讲义1_Hadoop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大鱼">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北冥有鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">大数据讲义1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T10:50:28+08:00">
+                2018-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/05/大数据讲义1_Hadoop/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/03/05/大数据讲义1_Hadoop/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/03/05/大数据讲义1_Hadoop/" class="leancloud_visitors" data-flag-title="大数据讲义1">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  大数据概览
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是大数据"><a href="#什么是大数据" class="headerlink" title="什么是大数据"></a>什么是大数据</h1><p>几乎所知的所有的大数据应用，其根本的目的都是为了解决两个基本问题——海量数据的存储和海量数据的计算，其核心思想都是分布式，但其跟现在大热的区块链的完全去中心化的分布式有着一定的区别，在区块链的概念和体系中所有节点的角色和地位都是一样的，但是大数据的分布式体系中，角色的定义和地位是不一样的，他们都是一种Master和Slaves的模式。</p>
+<h1 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h1><p>一提到大数据，Hadoop就不得不提，Hadoop有两大核心，HDFS和MR,前者是一个分布式文件存储系统，全称是Hadoop Distribute File System，用来解决海量数据储存；MR即Map和Reduce算法框架，用来解决海量数据的计算问题。先来看HDFS，这是整个Hadoop建筑的地基。它其实是将一个大文件分成若干块保存在不同服务器的多个节点中。通过联网让用户感觉像是在本地一样查看文件，为了降低文件丢失造成的错误，它会为每个小文件复制多个副本（默认为三个），以此来实现多机器上的多用户分享文件和存储空间。</p>
+<p>HDFS的特点：</p>
+<ul>
+<li>保存多个副本(默认是三个)，且提供容错机制，副本丢失或者宕机自动恢复</li>
+<li>运行在多个廉价的机器上</li>
+<li>适合大数据的处理。因为小文件也占用一个块，小文件越多（1000个1k文件）块越 多，NameNode压力越大。</li>
+</ul>
+<p>HDFS基本架构：</p>
+<p><img src="../images/hdfs.jpg"></p>
+<p>从图中可以看出HDFS基本结构分为NameNode、SecondaryNameNode，DataNode三个。</p>
+<p>NameNode： Master节点，类似于Linux中的根目录。管理数据块映射，处理客户读写请求，配置副本策略，管理HDFS名称空间。</p>
+<p>SecondaryNameNode：NameNode的冷备份；保存NameNode的信息（不是全部信息，用于NameNode宕机之后数据的恢复）</p>
+<p>DataNode：负责文件数据的实际物理存储</p>
+<p>fsimage：元数据镜像文件（文件系统的目录树）</p>
+<p>edits：元数据的操作日志</p>
+<p>NameNode=fsimage+edits</p>
+<h2 id="NameNode详解"><a href="#NameNode详解" class="headerlink" title="NameNode详解"></a>NameNode详解</h2><p>NameNode是整个HDFS的中心点，用户所有对HDFS的读写请求都需要经过NameNode的处理</p>
+<p>NameNode包含：目录与数据块之间的关系（靠fsimage和edits实现），数据块和节点之间的关系。需要注意的是NameNode中仅仅存储的是目录树的信息，而像Block与节点之间的关系则是通过DataNode上传的。</p>
+<h2 id="DataNode"><a href="#DataNode" class="headerlink" title="DataNode"></a>DataNode</h2><p>提供真实文件数据存储服务，根据需要（客户端或者NameNode的调度）检索或者存储数据块。</p>
+<p>数据块(block)是整个HDFS中最基本的数据存储单位，Hadoop1中默认大小是64M，Hadoop2中是128M。对于文件内容而言，一个文件的大小是size，按照固定的大小，从0开始，顺序给文件编号划分，划分好的每一块就称之为一个block。与普通的文件系统不同的是，HDFS中，如果一个文件小于一个数据块的大小，并不占用整个数据块存储空间。<br>(这样设置可以减轻namenode压力，因为namonode维护者文件与数据块列表的对应大小)</p>
+<h2 id="HDFS写流程"><a href="#HDFS写流程" class="headerlink" title="HDFS写流程"></a>HDFS写流程</h2><p>流程图：<br><img src="../images/hdfs_write.jpg"></p>
+<p>有一个文件FileA ，100M大小。Client将FileA写入到HDFS上。</p>
+<p>HDFS按默认配置。</p>
+<p>HDFS分布在三个机架上Rack1，Rack2，Rack3。</p>
+<ul>
+<li>Client端将FileA按照64M进行分块，分成block1和block2两块</li>
+<li>Client向NameNode发送写数据请求，如图蓝色虚线①——&gt;。</li>
+<li><p>NameNode节点记录block信息，并且返回可用的DataNode节点，如粉色虚线②———&gt;。<br>  Block1: host2,host1,host3</p>
+<p>  Block2: host7,host8,host4</p>
+<p>  原理：</p>
+<p>  NameNode具有RackAware机架感知功能，这个可以配置。</p>
+<p>  如果Client是DataNode节点，则block第一个副本存储在Client所在的DataNode上，第二个副本存储在与第一个block不同机架的DataNode上，第三个副本与第二个副本在同一个机架但不同的DataNode上。</p>
+<p>  如果Client不是DataNode节点，那么副本1就是随机选择的，副本2与副本3的选择依据与第一种情况一致。</p>
+</li>
+<li><p>Client端开始想HDFS写入数据,整个过程是流失写入的：</p>
+<ul>
+<li>将64M的block1按64k的package划分;</li>
+<li>将第一个package发送给host2;</li>
+<li>host2接收完成之后，开始将第一个package发送给host1，同时Client开始向host2发送第二个package；</li>
+<li>host1接收完第一个package之后，开始向host3发送第一个package,同时开始接收host2发送过来的package；</li>
+<li>一次类推，直至block1的数据发送完成，如图红线实线所示；</li>
+<li>host2,host1,host3向NameNode，host2向Client发送通知，说“消息发送完了”。如图粉红颜色实线所示。</li>
+<li>client收到host2发来的消息后，向namenode发送消息，说我写完了。这样就真完成了。如图黄色粗实线</li>
+<li>发送完block1后，再向host7，host8，host4发送block2，如图蓝色实线所示。</li>
+<li>发送完block2后，host7,host8,host4向NameNode，host7向Client发送通知，如图浅绿色实线所示。</li>
+<li>client向NameNode发送消息，说我写完了，如图黄色粗实线。。。这样就完毕了。</li>
+</ul>
+</li>
+</ul>
+<p>分析整个写过程，我们可知：</p>
+<ul>
+<li>HDFS实际占的空间是数据文件实际大小的3倍，所需要的带宽也是三倍</li>
+<li>在整个写数据的过程中，NameNode与DataNode通过心跳机制保持相互通信,从而让NameNode确认DataNode还活着，如果某个DataNode挂掉可以将要写入挂掉DataNode的数据放到其他节点上去。</li>
+</ul>
+<h2 id="HDFS读流程"><a href="#HDFS读流程" class="headerlink" title="HDFS读流程"></a>HDFS读流程</h2><p><img src="../images/hdfs_read.jpg"></p>
+<p>读的流程就相对简单些,如图所示，client要从datanode上，读取FileA。而FileA由block1和block2组成。<br>那么，读操作流程为：</p>
+<p>a. client向namenode发送读请求。</p>
+<p>b. namenode查看Metadata信息，返回fileA的block的位置。</p>
+<pre><code>block1:host2,host1,host3
+block2:host7,host8,host4
+</code></pre><p>c. block的位置是有先后顺序的，先读block1，再读block2。而且block1去host2上读取；然后block2，去host7上读取；</p>
+<p>上面例子中，client位于机架外，那么如果client位于机架内某个DataNode上，例如,client是host6。那么读取的时候，遵循的规律是：</p>
+<p>优选读取本机架上的数据。</p>
+<h1 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h1><p>先上一个整体的流程图</p>
+<p><img src="../images/mr.png"></p>
+<p>让我们从头开始慢慢梳理，整个MapReduce的所有过程。</p>
+<h2 id="Input-Split（输入分-切片）"><a href="#Input-Split（输入分-切片）" class="headerlink" title="Input Split（输入分/切片）"></a>Input Split（输入分/切片）</h2><p>对于一个MapReduce算法，在开始map计算之前,MapReduce会根据文件的大小来计算输入分片(input split)，每一个输入分片实际对应的是一个map任务，输入分片记录的并不是存储的数据本身，而是一个分片长度和一个记录数据的位置的数组。</p>
+<p>那么每个分片的大小和分片的个数怎么确定呢？</p>
+<p>hadooop提供了一个设置map个数的参数mapred.map.tasks，我们可以通过这个参数来控制map的个数。但是通过这种方式设置map的个数，并不是每次都有效的。原因是mapred.map.tasks只是一个hadoop的参考数值，最终map的个数，还取决于其他的因素。</p>
+<p>为了方便介绍，先来看几个名词：</p>
+<p>block_size : hdfs的文件块大小，默认为64M，可以通过参数dfs.block.size设置</p>
+<p>total_size : 输入文件整体的大小</p>
+<p>input_file_num : 输入文件的个数</p>
+<h3 id="默认map个数"><a href="#默认map个数" class="headerlink" title="默认map个数"></a>默认map个数</h3><p>如果不进行任何设置，默认的map个数是和blcok_size相关的。</p>
+<pre><code>default_num = total_size / block_size;
+</code></pre><h3 id="期望的大小"><a href="#期望的大小" class="headerlink" title="期望的大小"></a>期望的大小</h3><p> 可以通过参数mapred.map.tasks来设置程序员期望的map个数，但是这个个数只有在大于default_num的时候，才会生效。</p>
+<pre><code>goal_num = mapred.map.tasks;
+</code></pre><h3 id="设置处理的文件大小"><a href="#设置处理的文件大小" class="headerlink" title="设置处理的文件大小"></a>设置处理的文件大小</h3><p>可以通过mapred.min.split.size 设置每个task处理的文件大小，但是这个大小只有在大于block_size的时候才会生效。</p>
+<pre><code>split_size = max(mapred.min.split.size, block_size);
+split_num = total_size / split_size;
+</code></pre><h3 id="计算的map个数"><a href="#计算的map个数" class="headerlink" title="计算的map个数"></a>计算的map个数</h3><pre><code>compute_map_num = min(split_num,  max(default_num, goal_num))
+</code></pre><p>除了这些配置以外，mapreduce还要遵循一些原则。 mapreduce的每一个map处理的数据是不能跨越文件的，也就是说min_map_num &gt;= input_file_num。 所以，最终的map个数应该为：</p>
+<pre><code>final_map_num = max(compute_map_num, input_file_num)
+</code></pre><h2 id="Map阶段（包含shuffle）"><a href="#Map阶段（包含shuffle）" class="headerlink" title="Map阶段（包含shuffle）"></a>Map阶段（包含shuffle）</h2><p>Input Split 完成将会确定map的个数，即整个mr任务中起始的MapperTask的数量。</p>
+<ul>
+<li>对输入片中的记录按照一定的规则解析成键值对。有个默认规则是把每一行文本内容解析成键值对。“键”是每一行的起始位置(单位是字节)，“值”是本行的文本内容，即<k1,v1>.</k1,v1></li>
+<li><p>MapperTask调用Map方法,将<k1,v1>处理成<k2,v2>,这个Map函数是整个MR过程中真正需要程序员自己去实现的逻辑方法。这个map的输出结果会放先在一个环形内存缓冲区中(默认大小是100M，由mapreduce.task.io.sort.mb属性控制)，并做一次预排序，当缓冲区快要溢出时（默认为缓冲区大小的80%，由mapreduce.map.sort.spill.percent属性控制），后台程序做以下几件事：</k2,v2></k1,v1></p>
+<p>  1.线程会跟据数据最终要传达的到Reducer把缓冲区划分(默认按照键)相应的分区.<br>  partition的目是将记录划分到不同的Reducer上去，以期望能够达到负载均衡，以后的Reducer就会根据partition来读取自己对应的数据</p>
+<p>  2.二次排序，首先根据数据所属的partition进行排序，然后每个partition中的数据再按key来排序.</p>
+<p>  3.运行combiner(如果设置了的话)，combiner的本质也是一个Reducer，其目的是对将要写入到磁盘上的文件先进行一次处理，这样，写入到磁盘的数据量就会减少。</p>
+<p>  4.将数据写到本地磁盘产生spill文件(spill文件保存在{mapred.local.dir}指定的目录中，Map任务结束后就会被删除)</p>
+</li>
+</ul>
+<p>最后，每个Map任务可能产生多个spill文件，在每个Map任务完成前，会通过多路归并算法将这些spill文件归并成一个文件。至此，Map的shuffle过程就结束了。</p>
+<h2 id="Reduce阶段-包含shuffle"><a href="#Reduce阶段-包含shuffle" class="headerlink" title="Reduce阶段(包含shuffle)"></a>Reduce阶段(包含shuffle)</h2><pre><code>1.Copy阶段：Reducer通过Http方式得到输出文件的分区。
+    首先要将Map端产生的输出文件拷贝到Reduce端，但每个Reducer如何知道自己应该处理哪些数据呢？因为Map端进行partition的时候，实际上就相当于指定了每个Reducer要处理的数据(partition就对应了Reducer)，所以Reducer在拷贝数据的时候只需拷贝与自己对应的partition中的数据即可。每个Reducer会处理一个或者多个partition，但需要先将自己对应的partition中的数据从每个Map的输出结果中拷贝过来。
+
+2.sort阶段，也称为merge阶段。
+    复制数据的时候，把可以存放进内存的就把数据存放在内存中，当达到一定的时候，启动merge，将他们再次排序、分组合并，最后形成一个最终文件，作为Reduce任务的输入。此时标志Shuffle阶段结束，然后Reduce任务启动，将最终文件中的数据处理形成新的键值对&lt;k3,v3&gt;。
+
+3.真正的reduce
+程序员编写reduce代码，最终结果落地到HDFS.
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/28/docker搭建完全分布式大数据平台7——集群组件配置/" rel="next" title="docker搭建完全分布式大数据集群之集群组件配置">
+                <i class="fa fa-chevron-left"></i> docker搭建完全分布式大数据集群之集群组件配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/05/机器学习常见算法及其原理2_逻辑回归/" rel="prev" title="机器学习常见算法及其原理">
+                机器学习常见算法及其原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/a.jpg"
+                alt="大鱼" />
+            
+              <p class="site-author-name" itemprop="name">大鱼</p>
+              <p class="site-description motion-element" itemprop="description">鱼木鱼的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是大数据"><span class="nav-number">1.</span> <span class="nav-text">什么是大数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hadoop"><span class="nav-number">2.</span> <span class="nav-text">Hadoop</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NameNode详解"><span class="nav-number">2.1.</span> <span class="nav-text">NameNode详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DataNode"><span class="nav-number">2.2.</span> <span class="nav-text">DataNode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS写流程"><span class="nav-number">2.3.</span> <span class="nav-text">HDFS写流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS读流程"><span class="nav-number">2.4.</span> <span class="nav-text">HDFS读流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MapReduce"><span class="nav-number">3.</span> <span class="nav-text">MapReduce</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Input-Split（输入分-切片）"><span class="nav-number">3.1.</span> <span class="nav-text">Input Split（输入分/切片）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认map个数"><span class="nav-number">3.1.1.</span> <span class="nav-text">默认map个数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#期望的大小"><span class="nav-number">3.1.2.</span> <span class="nav-text">期望的大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置处理的文件大小"><span class="nav-number">3.1.3.</span> <span class="nav-text">设置处理的文件大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算的map个数"><span class="nav-number">3.1.4.</span> <span class="nav-text">计算的map个数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map阶段（包含shuffle）"><span class="nav-number">3.2.</span> <span class="nav-text">Map阶段（包含shuffle）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reduce阶段-包含shuffle"><span class="nav-number">3.3.</span> <span class="nav-text">Reduce阶段(包含shuffle)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大鱼</span>
+
+  
+</div>
+
+
+  <div class="powered-by">鱼木鱼个人博客</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">邮箱:404625710@qq.com &mdash; </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://ygs.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/03/05/大数据讲义1_Hadoop/';
+          this.page.identifier = '2018/03/05/大数据讲义1_Hadoop/';
+          this.page.title = '大数据讲义1';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ygs.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("YjhS4rwIKwKG64w4TkIAQ5T7-gzGzoHsz", "JyeUWP0bblTw6wbSE3GLWe3U");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+</body>
+</html>
