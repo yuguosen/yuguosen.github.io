@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="docker搭建完全分布式大数据集群之集群组件配置">
+<meta name="description" content="docker搭建完全分布式大数据平台7——集群组件配置">
 <meta name="keywords" content="大数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="docker搭建完全分布式大数据集群之集群组件配置">
+<meta property="og:title" content="docker搭建完全分布式大数据平台7——集群组件配置">
 <meta property="og:url" content="http://yoursite.com/2018/02/28/docker搭建完全分布式大数据平台7——集群组件配置/index.html">
 <meta property="og:site_name" content="北冥有鱼">
-<meta property="og:description" content="docker搭建完全分布式大数据集群之集群组件配置">
+<meta property="og:description" content="docker搭建完全分布式大数据平台7——集群组件配置">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-01T10:17:46.140Z">
+<meta property="og:updated_time" content="2018-05-22T03:05:57.665Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="docker搭建完全分布式大数据集群之集群组件配置">
-<meta name="twitter:description" content="docker搭建完全分布式大数据集群之集群组件配置">
+<meta name="twitter:title" content="docker搭建完全分布式大数据平台7——集群组件配置">
+<meta name="twitter:description" content="docker搭建完全分布式大数据平台7——集群组件配置">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>docker搭建完全分布式大数据集群之集群组件配置 | 北冥有鱼</title>
+  <title>docker搭建完全分布式大数据平台7——集群组件配置 | 北冥有鱼</title>
   
 
 
@@ -320,7 +320,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">docker搭建完全分布式大数据集群之集群组件配置</h1>
+          <h1 class="post-title" itemprop="name headline">docker搭建完全分布式大数据平台7——集群组件配置</h1>
         
 
         <div class="post-meta">
@@ -361,7 +361,7 @@
 
           
           
-             <span id="/2018/02/28/docker搭建完全分布式大数据平台7——集群组件配置/" class="leancloud_visitors" data-flag-title="docker搭建完全分布式大数据集群之集群组件配置">
+             <span id="/2018/02/28/docker搭建完全分布式大数据平台7——集群组件配置/" class="leancloud_visitors" data-flag-title="docker搭建完全分布式大数据平台7——集群组件配置">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -379,7 +379,7 @@
 
           
               <div class="post-description">
-                  docker搭建完全分布式大数据集群之集群组件配置
+                  docker搭建完全分布式大数据平台7——集群组件配置
               </div>
           
 
@@ -400,7 +400,8 @@
 <h1 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h1><p>Hadoop的两大核心是HDFS和MR，前者是整个大数据系统的最基础部分，是一个分布式文件存储系统；后者是一种分布式计算框架。</p>
 <h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>整个系统的一些参数都是通过xml文件的形式进行配置的，最为主要的两个文件是core-site.xml和hdfs-site.xml,接下来就进行相关的配置。</p>
 <p>切换目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd /home/hadoop/hadoop/hadoop-2.7.4/etc/hadoop</div></pre></td></tr></table></figure></p>
-<p>结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[hadoop@hadoop1 hadoop]$ ls</div><div class="line">capacity-scheduler.xml  hadoop-env.sh               httpfs-env.sh            kms-env.sh            mapred-env.sh               ssl-server.xml.example</div><div class="line">configuration.xsl       hadoop-metrics2.properties  httpfs-log4j.properties  kms-log4j.properties  mapred-queues.xml.template  yarn-env.cmd</div><div class="line">container-executor.cfg  hadoop-metrics.properties   httpfs-signature.secret  kms-site.xml          mapred-site.xml.template    yarn-env.sh</div><div class="line">core-site.xml           hadoop-policy.xml           httpfs-site.xml          log4j.properties      slaves                      yarn-site.xml</div><div class="line">hadoop-env.cmd          hdfs-site.xml               kms-acls.xml             mapred-env.cmd        ssl-client.xml.example</div></pre></td></tr></table></figure></p>
+<p>结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[hadoop@hadoop1 hadoop]$ ls</div><div class="line">capacity-scheduler.xml  hadoop-env.sh               httpfs-env.sh            kms-env.sh            mapred-env.sh               ssl-server.xml.example</div><div class="line">configuration.xsl       hadoop-metrics2.properties  httpfs-log4j.properties  kms-log4j.properties  mapred-queues.xml.template  yarn-env.cmd</div><div class="line">container-executor.cfg  hadoop-metrics.properties   httpfs-signature.secret  kms-site.xml          mapred-site.xml.template    yarn-env.sh</div><div class="line">core-site.xml           hadoop-policy.xml           httpfs-site.xml          log4j.properties      slaves                      yarn-site.xml</div><div class="line">hadoop-env.cmd          hdfs-site.xml               kms-acls.xml             mapred-env.cmd        ssl-client.xml.example</div></pre></td></tr></table></figure>
 <h3 id="core-site-xml"><a href="#core-site-xml" class="headerlink" title="core-site.xml"></a>core-site.xml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;</div><div class="line">&lt;!--</div><div class="line">  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</div><div class="line">  you may not use this file except in compliance with the License.</div><div class="line">  You may obtain a copy of the License at</div><div class="line">    http://www.apache.org/licenses/LICENSE-2.0</div><div class="line">  Unless required by applicable law or agreed to in writing, software</div><div class="line">  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</div><div class="line">  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</div><div class="line">  See the License for the specific language governing permissions and</div><div class="line">  limitations under the License. See accompanying LICENSE file.</div><div class="line">--&gt;</div><div class="line">&lt;!-- Put site-specific property overrides in this file. --&gt;</div><div class="line"></div><div class="line">&lt;configuration&gt;</div><div class="line">&lt;property&gt;</div><div class="line">        &lt;name&gt;fs.defaultFS&lt;/name&gt;</div><div class="line">        &lt;value&gt;hdfs://master:9000&lt;/value&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;hadoop.tmp.dir&lt;/name&gt;</div><div class="line">&lt;value&gt;/home/hadoop/hadoop/hadoop-2.7.4/tmp&lt;/value&gt;</div><div class="line">&lt;description&gt;Abaseforothertemporarydirectories.&lt;/description&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;io.file.buffer.size&lt;/name&gt;</div><div class="line">&lt;value&gt;4096&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;io.compression.codecs&lt;/name&gt;</div><div class="line">&lt;value&gt;org.apache.hadoop.io.compress.GzipCodec,</div><div class="line">org.apache.hadoop.io.compress.DefaultCodec,</div><div class="line">org.apache.hadoop.io.compress.BZip2Codec,</div><div class="line">org.apache.hadoop.io.compress.SnappyCodec</div><div class="line">&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">&lt;/configuration&gt;</div></pre></td></tr></table></figure>
 <h3 id="hdfs-site-xml"><a href="#hdfs-site-xml" class="headerlink" title="hdfs-site.xml"></a>hdfs-site.xml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
       
@@ -442,8 +443,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/05/大数据讲义1_Hadoop/" rel="prev" title="大数据讲义1">
-                大数据讲义1 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/05/机器学习常见算法及其原理1_svm/" rel="prev" title="机器学习常见算法及其原理1">
+                机器学习常见算法及其原理1 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -748,7 +749,7 @@
         var disqus_config = function () {
           this.page.url = 'http://yoursite.com/2018/02/28/docker搭建完全分布式大数据平台7——集群组件配置/';
           this.page.identifier = '2018/02/28/docker搭建完全分布式大数据平台7——集群组件配置/';
-          this.page.title = 'docker搭建完全分布式大数据集群之集群组件配置';
+          this.page.title = 'docker搭建完全分布式大数据平台7——集群组件配置';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://ygs.disqus.com/embed.js';
